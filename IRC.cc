@@ -205,7 +205,7 @@ static void hello( GtkWidget *widget,
 
 	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *cancel = gtk_button_new_with_label ("Close");
-    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 2, 4, 2, 4); 
+    gtk_table_attach_defaults(GTK_TABLE (table), cancel, 2, 4, 2, 4); 
     gtk_widget_show (cancel);
 
 	g_signal_connect (cancel, "clicked", G_CALLBACK (delete_event), NULL);
