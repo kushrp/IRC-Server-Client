@@ -15,6 +15,12 @@
 
 GtkListStore * list_rooms;
 
+char * usern;
+char * passw;
+GtkWidget *pass;
+
+
+
 void update_list_rooms() {
     GtkTreeIter iter;
     int i;
@@ -104,11 +110,11 @@ static GtkWidget *create_text( const char * initialText )
 }
 
 
-char * host;
+char * host = "localhost";
 char * user;
 char * password;
 char * sport;
-int port;
+int port = 8888;
 
 #define MAX_MESSAGES 100
 #define MAX_MESSAGE_LEN 300
@@ -198,7 +204,7 @@ void printUsage()
 void add_user() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
-	sendCommand(host, port, "ADD-USER", user, password, "", response);
+	sendCommand(host, port, "ADD-USER", usern, passw, "", response);
 	
 	if (!strcmp(response,"OK\r\n")) {
 		printf("User %s added\n", user);
@@ -225,9 +231,6 @@ static gboolean delete_event( GtkWidget *widget,
     return FALSE;
 }
 
-char * usern;
-char * passw;
-GtkWidget *pass;
 
 
 static void enter_callback( GtkWidget *widget,
@@ -257,6 +260,7 @@ static void send_details( GtkWidget *widget, GtkWidget *w1)
   entry_text2 = gtk_entry_get_text (GTK_ENTRY (pass));
   printf ("Entry contents: %s\n", entry_text2);
   passw = (char *)entry_text2;
+  add_user();
 }
 
 
