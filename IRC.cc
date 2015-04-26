@@ -487,6 +487,7 @@ int main( int   argc,
 	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
 	
 	g_timeout_add(5000, (GSourceFunc) update_list_rooms, (gpointer) window);
+	//ffff
     
     gtk_widget_show (table);
     gtk_widget_show (window);
