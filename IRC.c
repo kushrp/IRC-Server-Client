@@ -220,9 +220,10 @@ void printUsage()
 
 void add_user() {
 	// Try first to add user in case it does not exist.
-	char response[MAX_RESPONSE]                                                                                                             ;
+	char response[MAX_RESPONSE];
 	sendCommand(host, port, "ADD-USER", usern, passw, "", response);
 	
+	printf("%s\n",response);
 	if (!strcmp(response,"OK\r\n")) {
 		printf("User %s added\n", user);
 	}
@@ -233,8 +234,20 @@ void fncreate_room() {
 	char response[MAX_RESPONSE];
 	sendCommand(host, port, "CREATE-ROOM", usern, passw, "", response);
 	
+	printf("%s\n",response);
 	if (!strcmp(response,"OK\r\n")) {
 		printf("Room %s added\n", user);
+	}
+}
+
+void fnlist_rooms() {
+	// Try first to add user in case it does not exist.
+	char response[MAX_RESPONSE];
+	sendCommand(host, port, "LIST-ROOMS", usern, passw, "", response);
+	
+	printf("%s\n",response);
+	if (!strcmp(response,"OK\r\n")) {
+		printf("User %s added\n", user);
 	}
 }
 
