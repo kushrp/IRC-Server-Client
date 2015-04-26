@@ -185,3 +185,18 @@ After doing this, you may fix the identity used for this commit with:
     git commit --amend --reset-author
 
  3 files changed, 43 insertions(+), 8 deletions(-)
+[master cbaa8d2] Make IRCclient
+ Committer: Kush Rustagi <krustagi@moore06.cs.purdue.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 37 insertions(+), 16 deletions(-)
+ rewrite IRC (85%)
