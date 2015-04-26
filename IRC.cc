@@ -211,7 +211,7 @@ int main( int   argc,
 
 	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *ca = gtk_button_new_with_label ("Create Account");
-    gtk_table_attach_defaults(GTK_TABLE (table), ca, 2, 4, 7, 8); 
+    gtk_table_attach_defaults(GTK_TABLE (table), ca, 3, 4, 7, 8); 
     gtk_widget_show (ca);
 
 	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
