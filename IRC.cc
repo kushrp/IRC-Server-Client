@@ -261,6 +261,7 @@ static void send_details( GtkWidget *widget, GtkWidget *w1)
   printf ("Entry contents: %s\n", entry_text2);
   passw = (char *)entry_text2;
   add_user();
+  
 }
 
 
@@ -316,13 +317,16 @@ static void hello( GtkWidget *widget,
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Create Account");
     gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 2, 2, 3); 
+	g_signal_connect_swapped (send_button, "clicked",
+			      G_CALLBACK (gtk_widget_destroy),
+                              window);
     gtk_widget_show (send_button);
 
 	g_signal_connect (send_button, "clicked", G_CALLBACK (send_details), username);
 
 	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *cancel = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	 g_signal_connect_swapped (cancel, "clicked",
+	g_signal_connect_swapped (cancel, "clicked",
 			      G_CALLBACK (gtk_widget_destroy),
 			      window);
 	/*= gtk_button_new_with_label ("Close"); */
