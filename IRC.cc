@@ -103,6 +103,110 @@ static GtkWidget *create_text( const char * initialText )
    return scrolled_window;
 }
 
+
+char * host;
+char * user;
+char * password;
+char * sport;
+int port;
+
+#define MAX_MESSAGES 100
+#define MAX_MESSAGE_LEN 300
+#define MAX_RESPONSE (20 * 1024)
+
+int lastMessage = 0;
+
+int open_client_socket(char * host, int port) {
+	// Initialize socket address structure
+	struct  sockaddr_in socketAddress;
+	
+	// Clear sockaddr structure
+	memset((char *)&socketAddress,0,sizeof(socketAddress));
+	
+	// Set family to Internet 
+	socketAddress.sin_family = AF_INET;
+	
+	// Set port
+	socketAddress.sin_port = htons((u_short)port);
+	
+	// Get host table entry for this host
+	struct  hostent  *ptrh = gethostbyname(host);
+	if ( ptrh == NULL ) {
+		perror("gethostbyname");
+		exit(1);
+	}
+	
+	// Copy the host ip address to socket address structure
+	memcpy(&socketAddress.sin_addr, ptrh->h_addr, ptrh->h_length);
+	
+	// Get TCP transport protocol entry
+	struct  protoent *ptrp = getprotobyname("tcp");
+	if ( ptrp == NULL ) {
+		perror("getprotobyname");
+		exit(1);
+	}
+	
+	// Create a tcp socket
+	int sock = socket(PF_INET, SOCK_STREAM, ptrp->p_proto);
+	if (sock < 0) {
+		perror("socket");
+		exit(1);
+	}
+	
+	// Connect the socket to the specified server
+	if (connect(sock, (struct sockaddr *)&socketAddress,
+		    sizeof(socketAddress)) < 0) {
+		perror("connect");
+		exit(1);
+	}
+	
+	return sock;
+}
+
+int sendCommand(char * host, int port, char * command, char * user,
+		char * password, char * args, char * response) {
+	int sock = open_client_socket( host, port);
+
+	// Send command
+	write(sock, command, strlen(command));
+	write(sock, " ", 1);
+	write(sock, user, strlen(user));
+	write(sock, " ", 1);
+	write(sock, password, strlen(password));
+	write(sock, " ", 1);
+	write(sock, args, strlen(args));
+	write(sock, "\r\n",2);
+
+	// Keep reading until connection is closed or MAX_REPONSE
+	int n = 0;
+	int len = 0;
+	while ((n=read(sock, response+len, MAX_RESPONSE - len))>0) {
+		len += n;
+	}
+
+	//printf("response:%s\n", response);
+
+	close(sock);
+}
+
+void printUsage()
+{
+	printf("Usage: talk-client host port user password\n");
+	exit(1);
+}
+
+void add_user() {
+	// Try first to add user in case it does not exist.
+	char response[ MAX_RESPONSE ];
+	sendCommand(host, port, "ADD-USER", user, password, "", response);
+	
+	if (!strcmp(response,"OK\r\n")) {
+		printf("User %s added\n", user);
+	}
+}
+
+
+
 static gboolean delete_event( GtkWidget *widget,
                               GdkEvent  *event,
                               gpointer   data )
@@ -121,8 +225,9 @@ static gboolean delete_event( GtkWidget *widget,
     return FALSE;
 }
 
-char * user;
-char * pass;
+char * usern;
+char * passw;
+GtkWidget *pass;
 
 
 static void enter_callback( GtkWidget *widget,
@@ -131,7 +236,7 @@ static void enter_callback( GtkWidget *widget,
   const gchar *entry_text;
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
   printf ("Entry contents: %s\n", entry_text);
-  user = (char *)entry_text;
+  usern = (char *)entry_text;
 }
 static void pass_callback( GtkWidget *widget,
                             GtkWidget *entry )
@@ -139,11 +244,19 @@ static void pass_callback( GtkWidget *widget,
   const gchar *entry_text;
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
   printf ("Entry contents: %s\n", entry_text);
+  passw = (char *)entry_text;
 }
 
-static void send_details( GtkWidget *widget, gpointer   data )
+static void send_details( GtkWidget *widget, GtkWidget *w1)
 {
-
+  const gchar *entry_text;
+  entry_text = gtk_entry_get_text (GTK_ENTRY (w1));
+  printf ("Entry contents: %s\n", entry_text);
+  usern = (char *)entry_text;
+  const gchar *entry_text2;
+  entry_text2 = gtk_entry_get_text (GTK_ENTRY (pass));
+  printf ("Entry contents: %s\n", entry_text2);
+  passw = (char *)entry_text2;
 }
 
 
@@ -154,7 +267,7 @@ static void hello( GtkWidget *widget,
 	GtkWidget *window;
 	GtkWidget *username;
 	gint tmp_pos;
-	GtkWidget *pass;
+	
     //gtk_init (&argc, &argv);
    
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -201,7 +314,7 @@ static void hello( GtkWidget *widget,
     gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 2, 2, 3); 
     gtk_widget_show (send_button);
 
-	g_signal_connect (send_button, "clicked", G_CALLBACK (send_details), NULL);
+	g_signal_connect (send_button, "clicked", G_CALLBACK (send_details), username);
 
 	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *cancel = gtk_button_new_with_label ("Close");
@@ -230,8 +343,8 @@ int main( int   argc,
 
 	//up = (userpass *)malloc(100*sizeof(userpass));
 
-	user = (char *)g_malloc(100);
-	pass = (char *)g_malloc(100);
+	usern = (char *)g_malloc(100);
+	passw = (char *)g_malloc(100);
 
     gtk_init (&argc, &argv);
    
