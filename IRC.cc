@@ -1,5 +1,15 @@
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <time.h>
+
 #include <gtk/gtk.h>
 
 GtkListStore * list_rooms;
@@ -110,12 +120,20 @@ static gboolean delete_event( GtkWidget *widget,
     return FALSE;
 }
 
+struct userpass {
+	char * user;
+	char * pass;
+};
+
+userpass *up;
+
 static void enter_callback( GtkWidget *widget,
                             GtkWidget *entry )
 {
   const gchar *entry_text;
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
   printf ("Entry contents: %s\n", entry_text);
+  up->user = (char *)entry_text;
 }
 static void pass_callback( GtkWidget *widget,
                             GtkWidget *entry )
@@ -124,22 +142,6 @@ static void pass_callback( GtkWidget *widget,
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
   printf ("Entry contents: %s\n", entry_text);
 }
-
-static void entry_toggle_editable( GtkWidget *checkbutton,
-                                   GtkWidget *entry )
-{
-  gtk_editable_set_editable (GTK_EDITABLE (entry),
-                             GTK_TOGGLE_BUTTON (checkbutton)->active);
-}
-
-static void entry_toggle_visibility( GtkWidget *checkbutton,
-                                     GtkWidget *entry )
-{
-  gtk_entry_set_visibility (GTK_ENTRY (entry),
-			    GTK_TOGGLE_BUTTON (checkbutton)->active);
-}
-
-
 
 static void hello( GtkWidget *widget,
                    gpointer   data )
@@ -226,6 +228,11 @@ int main( int   argc,
     GtkWidget *list;
     GtkWidget *messages;
     GtkWidget *myMessage;
+
+	//up = (userpass *)malloc(100*sizeof(userpass));
+
+	up->user = (char *)malloc(100);
+	up->pass = (char *)malloc(100);
 
     gtk_init (&argc, &argv);
    
