@@ -437,13 +437,13 @@ int main( int   argc,
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
     update_list_rooms();
     list = create_list ("Rooms", list_rooms);
-    gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 2, 0, 4);
+    gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 3, 0, 4);
     gtk_widget_show (list);
    
-	room_user_names = gtk_list_store_new (7, G_TYPE_STRING);
+	room_user_names = gtk_list_store_new (1, G_TYPE_STRING);
     update_room_user_names();
     namelist = create_list ("Users", room_user_names);
-    gtk_table_attach_defaults (GTK_TABLE (table), namelist, 0, 2, 6, 10);
+    gtk_table_attach_defaults (GTK_TABLE (table), namelist, 0, 3, 6, 10);
     gtk_widget_show (namelist);
 
 	room_entry = gtk_entry_new ();
@@ -455,33 +455,33 @@ int main( int   argc,
    // gtk_editable_select_region (GTK_EDITABLE (entry),
 	//		        0, GTK_ENTRY (entry)->text_length);
    // gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
-	gtk_table_attach_defaults(GTK_TABLE (table), room_entry, 0, 2, 4, 5); 
+	gtk_table_attach_defaults(GTK_TABLE (table), room_entry, 0, 3, 4, 5); 
     gtk_widget_show (room_entry);
 
 	// Add create_room button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *create_room = gtk_button_new_with_label ("Create Room");
-    gtk_table_attach_defaults(GTK_TABLE (table), create_room, 0, 2, 5, 6); 
+    gtk_table_attach_defaults(GTK_TABLE (table), create_room, 0, 3, 5, 6); 
     gtk_widget_show (create_room);
 
 	g_signal_connect (create_room, "clicked", G_CALLBACK (send_create_room), room_entry);
 	
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
     messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), messages, 2, 6, 0, 6);
+    gtk_table_attach_defaults (GTK_TABLE (table), messages, 3, 7, 0, 7);
     gtk_widget_show (messages);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
 
     myMessage = create_text ("I am fine, thanks and you?\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 2, 6, 7, 9);
+    gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 3, 7, 7, 9);
     gtk_widget_show (myMessage);
 
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
-    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 2, 6, 9, 10); 
+    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 3, 7, 9, 10); 
     gtk_widget_show (send_button);
 
 	GtkWidget * ca= gtk_button_new_with_label ("Create Account");
-    gtk_table_attach_defaults(GTK_TABLE (table), ca, 6, 9, 5, 6); 
+    gtk_table_attach_defaults(GTK_TABLE (table), ca, 7, 9, 5, 6); 
     gtk_widget_show (ca);
 
 	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
