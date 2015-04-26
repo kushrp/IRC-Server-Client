@@ -92,6 +92,27 @@ static GtkWidget *create_text( const char * initialText )
    return scrolled_window;
 }
 
+static gboolean delete_event( GtkWidget *widget,
+                              GdkEvent  *event,
+                              gpointer   data )
+{
+    /* If you return FALSE in the "delete-event" signal handler,
+     * GTK will emit the "destroy" signal. Returning TRUE means
+     * you don't want the window to be destroyed.
+     * This is useful for popping up 'are you sure you want to quit?'
+     * type dialogs. */
+
+    g_print ("delete event occurred\n");
+
+    /* Change TRUE to FALSE and the main window will be destroyed with
+     * a "delete-event". */
+
+    return FALSE;
+}
+
+
+
+
 static void hello( GtkWidget *widget,
                    gpointer   data )
 {
@@ -105,8 +126,8 @@ static void hello( GtkWidget *widget,
    
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title (GTK_WINDOW (window), "Paned Windows");
-    g_signal_connect (window, "destroy",
-	              G_CALLBACK (gtk_main_quit), NULL);
+    g_signal_connect (window, "delete-event",
+	              G_CALLBACK (delete_event), NULL);
     gtk_container_set_border_width (GTK_CONTAINER (window), 10);
     gtk_widget_set_size_request (GTK_WIDGET (window), 600, 450);
 
