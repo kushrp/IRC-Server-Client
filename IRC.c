@@ -45,7 +45,7 @@ void update_list_rooms() {
     GtkTreeIter iter;
 	char response[MAX_RESPONSE];
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
-	
+	gtk_list_store_clear(GTK_LIST_STORE (list_rooms));
 	printf("%s\n",response);
 	char * token = strtok(response,"\r\n");
 	while(token != NULL) 
