@@ -117,6 +117,13 @@ static void enter_callback( GtkWidget *widget,
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
   printf ("Entry contents: %s\n", entry_text);
 }
+static void pass_callback( GtkWidget *widget,
+                            GtkWidget *entry )
+{
+  const gchar *entry_text;
+  entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
+  printf ("Entry contents: %s\n", entry_text);
+}
 
 static void entry_toggle_editable( GtkWidget *checkbutton,
                                    GtkWidget *entry )
@@ -139,8 +146,9 @@ static void hello( GtkWidget *widget,
 {
     //g_print ("Hello World\n");
 	GtkWidget *window;
-	GtkWidget *entry;
+	GtkWidget *username;
 	gint tmp_pos;
+	GtkWidget *pass;
     //gtk_init (&argc, &argv);
    
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -157,17 +165,30 @@ static void hello( GtkWidget *widget,
     gtk_table_set_col_spacings(GTK_TABLE (table), 5);
     gtk_widget_show (table);
 
-	entry = gtk_entry_new ();
-    gtk_entry_set_max_length (GTK_ENTRY (entry), 50);
-    g_signal_connect (entry, "activate", G_CALLBACK (enter_callback), entry);
-    gtk_entry_set_text (GTK_ENTRY (entry), "Username");
-    tmp_pos = GTK_ENTRY (entry)->text_length;
+	username = gtk_entry_new ();
+    gtk_entry_set_max_length (GTK_ENTRY (username), 50);
+    g_signal_connect (username, "activate", G_CALLBACK (enter_callback), username);
+    gtk_entry_set_text (GTK_ENTRY (username), "Username");
+    tmp_pos = GTK_ENTRY (username)->text_length;
    // gtk_editable_insert_text (GTK_EDITABLE (entry), " world", -1, &tmp_pos);
    // gtk_editable_select_region (GTK_EDITABLE (entry),
 	//		        0, GTK_ENTRY (entry)->text_length);
    // gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
-	gtk_table_attach_defaults(GTK_TABLE (table), entry, 0, 4, 0, 1); 
-    gtk_widget_show (entry);
+	gtk_table_attach_defaults(GTK_TABLE (table), username, 0, 4, 0, 1); 
+    gtk_widget_show (username);
+
+	pass = gtk_entry_new ();
+    gtk_entry_set_max_length (GTK_ENTRY (pass), 50);
+    g_signal_connect (pass, "activate", G_CALLBACK (pass_callback), pass);
+    gtk_entry_set_text (GTK_ENTRY (pass), "Password");
+    tmp_pos = GTK_ENTRY (pass)->text_length;
+	gtk_entry_set_visibility (GTK_ENTRY (pass),FALSE);
+   // gtk_editable_insert_text (GTK_EDITABLE (entry), " world", -1, &tmp_pos);
+   // gtk_editable_select_region (GTK_EDITABLE (entry),
+	//		        0, GTK_ENTRY (entry)->text_length);
+   // gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
+	gtk_table_attach_defaults(GTK_TABLE (table), pass, 0, 4, 1, 2); 
+    gtk_widget_show (pass);
 	
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
