@@ -110,6 +110,27 @@ static gboolean delete_event( GtkWidget *widget,
     return FALSE;
 }
 
+static void enter_callback( GtkWidget *widget,
+                            GtkWidget *entry )
+{
+  const gchar *entry_text;
+  entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
+  printf ("Entry contents: %s\n", entry_text);
+}
+
+static void entry_toggle_editable( GtkWidget *checkbutton,
+                                   GtkWidget *entry )
+{
+  gtk_editable_set_editable (GTK_EDITABLE (entry),
+                             GTK_TOGGLE_BUTTON (checkbutton)->active);
+}
+
+static void entry_toggle_visibility( GtkWidget *checkbutton,
+                                     GtkWidget *entry )
+{
+  gtk_entry_set_visibility (GTK_ENTRY (entry),
+			    GTK_TOGGLE_BUTTON (checkbutton)->active);
+}
 
 
 
@@ -118,43 +139,36 @@ static void hello( GtkWidget *widget,
 {
     //g_print ("Hello World\n");
 	GtkWidget *window;
-    GtkWidget *list;
-    GtkWidget *messages;
-    GtkWidget *myMessage;
-
+	GtkWidget *entry;
+	gint tmp_pos;
     //gtk_init (&argc, &argv);
    
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window), "Paned Windows");
+    gtk_window_set_title (GTK_WINDOW (window), "Encrypted Login Window");
     g_signal_connect (window, "delete-event",
 	              G_CALLBACK (delete_event), NULL);
     gtk_container_set_border_width (GTK_CONTAINER (window), 10);
-    gtk_widget_set_size_request (GTK_WIDGET (window), 600, 450);
+    gtk_widget_set_size_request (GTK_WIDGET (window), 400, 250);
 
     // Create a table to place the widgets. Use a 7x4 Grid (7 rows x 4 columns)
-    GtkWidget *table = gtk_table_new (7, 4, TRUE);
+    GtkWidget *table = gtk_table_new (4, 4, TRUE);
     gtk_container_add (GTK_CONTAINER (window), table);
     gtk_table_set_row_spacings(GTK_TABLE (table), 5);
     gtk_table_set_col_spacings(GTK_TABLE (table), 5);
     gtk_widget_show (table);
+
+	entry = gtk_entry_new ();
+    gtk_entry_set_max_length (GTK_ENTRY (entry), 50);
+    g_signal_connect (entry, "activate", G_CALLBACK (enter_callback), entry);
+    gtk_entry_set_text (GTK_ENTRY (entry), "Username");
+    tmp_pos = GTK_ENTRY (entry)->text_length;
+   // gtk_editable_insert_text (GTK_EDITABLE (entry), " world", -1, &tmp_pos);
+   // gtk_editable_select_region (GTK_EDITABLE (entry),
+	//		        0, GTK_ENTRY (entry)->text_length);
+   // gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
+	gtk_table_attach_defaults(GTK_TABLE (table), entry, 0, 4, 0, 1); 
+    gtk_widget_show (entry);
 	
-	// Add list of rooms. Use columns 0 to 4 (exclusive) and rows 0 to 4 (exclusive)
-    list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
-    update_list_rooms();
-    list = create_list ("Rooms", list_rooms);
-    gtk_table_attach_defaults (GTK_TABLE (table), list, 2, 4, 0, 2);
-    gtk_widget_show (list);
-   
-    // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), messages, 0, 4, 2, 5);
-    gtk_widget_show (messages);
-    // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-
-    myMessage = create_text ("I am fine, thanks and you?\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 0, 4, 5, 7);
-    gtk_widget_show (myMessage);
-
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
     gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 1, 7, 8); 
