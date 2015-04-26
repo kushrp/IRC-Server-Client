@@ -13,6 +13,21 @@
 #include <pthread.h>
 #include <gtk/gtk.h>
 
+
+#define MAX_MESSAGES 100
+#define MAX_MESSAGE_LEN 300
+#define MAX_RESPONSE (20 * 1024)
+
+
+
+char * host;
+char * user;
+char * password;
+char * sport;
+int port = 8888;
+
+int lastMessage = 0;
+
 GtkListStore * list_rooms;
 GtkListStore * room_user_names;
 GtkWidget * room_entry;
@@ -30,9 +45,16 @@ void update_list_rooms() {
     GtkTreeIter iter;
     int i;
 
+	char response[MAX_RESPONSE];
+	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
+	
+	printf("%s\n",response);
+	//if (!strcmp(response,"OK\r\n")) {
+	//	printf("User %s added\n", user);
+	//}
     /* Add some messages to the window */
     for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("Room %d", i);
+        gchar *msg = g_strdup_printf (response);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
 	                    &iter,
@@ -127,19 +149,6 @@ static GtkWidget *create_text( const char * initialText )
 
    return scrolled_window;
 }
-
-
-char * host;
-char * user;
-char * password;
-char * sport;
-int port = 8888;
-
-#define MAX_MESSAGES 100
-#define MAX_MESSAGE_LEN 300
-#define MAX_RESPONSE (20 * 1024)
-
-int lastMessage = 0;
 
 int open_client_socket(char * host, int port) {
 	// Initialize socket address structure
@@ -241,19 +250,6 @@ void fncreate_room() {
 	}
 }
 
-void fnlist_rooms() {
-	// Try first to add user in case it does not exist.
-	char response[MAX_RESPONSE];
-	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
-	
-	printf("%s\n",response);
-	if (!strcmp(response,"OK\r\n")) {
-		printf("User %s added\n", user);
-	}
-}
-
-
-
 
 
 
@@ -327,7 +323,7 @@ static void send_create_room(GtkWidget *widget, GtkWidget *w1)
   printf ("Entry contents: %s\n", entry_text);
   sendrn = (char *)entry_text;
   fncreate_room();
-  fnlist_rooms();
+  update_list_rooms();
   
 }
 
