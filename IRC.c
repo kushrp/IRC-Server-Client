@@ -39,8 +39,7 @@ char * passw;
 char * sendrn;
 GtkWidget *pass;
 int i = 0;
-
-
+char * txt[100];
 
 void update_list_rooms() {
     GtkTreeIter iter;
@@ -48,18 +47,25 @@ void update_list_rooms() {
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	
 	printf("%s\n",response);
+	char * token = strtok(response,"\r\n");
+	while(token != NULL) 
+	{
+		
+	 // if(i==3) args = token;
+		
+	 // if(i==4) args2 = token;
 	//if (!strcmp(response,"OK\r\n")) {
 	//	printf("User %s added\n", user);
 	//}
     /* Add some messages to the window */
    // for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup((gchar *)response);
+        gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
-	                    &iter,
-                            0, msg,
-	                    -1);
-	g_free (msg);
+        gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
+		g_free (msg);
+		i++;
+	    token = strtok(NULL, "\r\n");
+	}
     //}
 }
 
