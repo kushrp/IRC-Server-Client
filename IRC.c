@@ -427,7 +427,7 @@ int main( int   argc,
     gtk_widget_set_size_request (GTK_WIDGET (window), 800, 650);
 
     // Create a table to place the widgets. Use a 7x4 Grid (7 rows x 4 columns)
-    GtkWidget *table = gtk_table_new (10, 9, TRUE);
+    GtkWidget *table = gtk_table_new (10, 10, TRUE);
     gtk_container_add (GTK_CONTAINER (window), table);
     gtk_table_set_row_spacings(GTK_TABLE (table), 10);
     gtk_table_set_col_spacings(GTK_TABLE (table), 10);
@@ -481,7 +481,7 @@ int main( int   argc,
     gtk_widget_show (send_button);
 
 	GtkWidget * ca= gtk_button_new_with_label ("Create Account");
-    gtk_table_attach_defaults(GTK_TABLE (table), ca, 7, 9, 5, 6); 
+    gtk_table_attach_defaults(GTK_TABLE (table), ca, 7, 10, 5, 6); 
     gtk_widget_show (ca);
 
 	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
