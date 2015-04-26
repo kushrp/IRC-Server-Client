@@ -165,7 +165,7 @@ static void hello( GtkWidget *widget,
     gtk_widget_set_size_request (GTK_WIDGET (window), 400, 250);
 
     // Create a table to place the widgets. Use a 7x4 Grid (7 rows x 4 columns)
-    GtkWidget *table = gtk_table_new (4, 4, TRUE);
+    GtkWidget *table = gtk_table_new (4, 3, TRUE);
     gtk_container_add (GTK_CONTAINER (window), table);
     gtk_table_set_row_spacings(GTK_TABLE (table), 5);
     gtk_table_set_col_spacings(GTK_TABLE (table), 5);
@@ -198,14 +198,14 @@ static void hello( GtkWidget *widget,
 	
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Create Account");
-    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 2, 2, 4); 
+    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 2, 2, 3); 
     gtk_widget_show (send_button);
 
 	g_signal_connect (send_button, "clicked", G_CALLBACK (send_details), NULL);
 
 	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *cancel = gtk_button_new_with_label ("Close");
-    gtk_table_attach_defaults(GTK_TABLE (table), cancel, 2, 4, 2, 4); 
+    gtk_table_attach_defaults(GTK_TABLE (table), cancel, 2, 4, 2, 3); 
     gtk_widget_show (cancel);
 
 	g_signal_connect (cancel, "clicked", G_CALLBACK (delete_event), NULL);
