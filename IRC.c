@@ -328,6 +328,7 @@ static void send_create_room(GtkWidget *widget, GtkWidget *w1)
   printf ("Entry contents: %s\n", entry_text);
   sendrn = (char *)entry_text;
   fncreate_room();
+  fnlist_rooms();
   
 }
 
