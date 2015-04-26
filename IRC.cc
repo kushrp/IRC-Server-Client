@@ -1,5 +1,16 @@
 
 #include <stdio.h>
+#include <time.h>
+#include <curses.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <pthread.h>
 #include <gtk/gtk.h>
 
 GtkListStore * list_rooms;
@@ -130,6 +141,12 @@ static void pass_callback( GtkWidget *widget,
   printf ("Entry contents: %s\n", entry_text);
 }
 
+static void send_details( GtkWidget *widget, gpointer   data )
+{
+
+}
+
+
 static void hello( GtkWidget *widget,
                    gpointer   data )
 {
@@ -180,16 +197,18 @@ static void hello( GtkWidget *widget,
     gtk_widget_show (pass);
 	
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
-    GtkWidget *send_button = gtk_button_new_with_label ("Send");
-    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 1, 7, 8); 
+    GtkWidget *send_button = gtk_button_new_with_label ("Create Account");
+    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 2, 2, 4); 
     gtk_widget_show (send_button);
 
-	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
-    GtkWidget *ca = gtk_button_new_with_label ("Create Account");
-    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 2, 4, 7, 8); 
-    gtk_widget_show (ca);
+	g_signal_connect (send_button, "clicked", G_CALLBACK (send_details), NULL);
 
-	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
+	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
+    GtkWidget *cancel = gtk_button_new_with_label ("Close");
+    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 2, 4, 2, 4); 
+    gtk_widget_show (cancel);
+
+	g_signal_connect (cancel, "clicked", G_CALLBACK (delete_event), NULL);
 	
     
     gtk_widget_show (table);
@@ -199,13 +218,6 @@ static void hello( GtkWidget *widget,
 
    // return 0;
 }
-
-
-
-
-
-
-
 
 
 int main( int   argc,
