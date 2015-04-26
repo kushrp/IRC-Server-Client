@@ -317,15 +317,15 @@ static void hello( GtkWidget *widget,
 	g_signal_connect (send_button, "clicked", G_CALLBACK (send_details), username);
 
 	 // Add ca button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
-    GtkWidget *cancel = gtk_button_new_with_label ("Close");
-    gtk_table_attach_defaults(GTK_TABLE (table), cancel, 2, 4, 2, 3); 
-    gtk_widget_show (cancel);
-	cancel = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-    g_signal_connect_swapped (cancel, "clicked",
+    GtkWidget *cancel = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	 g_signal_connect_swapped (cancel, "clicked",
 			      G_CALLBACK (gtk_widget_destroy),
 			      window);
-
-	gtk_widget_show (cancel);
+	/*= gtk_button_new_with_label ("Close"); */
+    gtk_table_attach_defaults(GTK_TABLE (table), cancel, 2, 4, 2, 3); 
+    gtk_widget_show (cancel);
+   
+	//gtk_widget_show (cancel);
 
 	//g_signal_connect (cancel, "clicked", G_CALLBACK (delete_event), NULL);
 	
