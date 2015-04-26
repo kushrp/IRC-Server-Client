@@ -220,7 +220,7 @@ void printUsage()
 
 void add_user() {
 	// Try first to add user in case it does not exist.
-	char * response = (char *)g_malloc(100);
+	char response[MAX_RESPONSE];
 	sendCommand(host, port, "ADD-USER", usern, passw, "", response);
 	
 	if (!strcmp(response,"OK\r\n")) {
@@ -230,7 +230,7 @@ void add_user() {
 
 void fncreate_room() {
 	// Try first to add user in case it does not exist.
-	char * response = (char *)g_malloc(100);
+	char response[MAX_RESPONSE];
 	sendCommand(host, port, "CREATE-ROOM", usern, passw, "", response);
 	
 	if (!strcmp(response,"OK\r\n")) {
