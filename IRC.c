@@ -21,6 +21,7 @@ GtkWidget * namelist;
 
 char * usern;
 char * passw;
+char * sendrn;
 GtkWidget *pass;
 
 
@@ -232,7 +233,7 @@ void add_user() {
 void fncreate_room() {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "CREATE-ROOM", usern, passw, "", response);
+	sendCommand(host, port, "CREATE-ROOM", "superman", "clarkkent", sendrn, response);
 	
 	printf("%s\n",response);
 	if (!strcmp(response,"OK\r\n")) {
@@ -243,7 +244,7 @@ void fncreate_room() {
 void fnlist_rooms() {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "LIST-ROOMS", usern, passw, "", response);
+	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	
 	printf("%s\n",response);
 	if (!strcmp(response,"OK\r\n")) {
@@ -284,8 +285,6 @@ static void enter_callback( GtkWidget *widget,
   printf ("Entry contents: %s\n", entry_text);
   usern = (char *)entry_text;
 }
-
-char * sendrn;
 
 static void room_enter_callback( GtkWidget *widget,
                             GtkWidget *entry )
