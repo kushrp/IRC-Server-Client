@@ -317,9 +317,9 @@ static void hello( GtkWidget *widget,
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Create Account");
     gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 2, 2, 3); 
-	g_signal_connect_swapped (send_button, "clicked",
-			      G_CALLBACK (gtk_widget_destroy),
-                              window);
+	//g_signal_connect_swapped (send_button, "clicked",
+	//		      G_CALLBACK (gtk_widget_destroy),
+    //                          window);
     gtk_widget_show (send_button);
 
 	g_signal_connect (send_button, "clicked", G_CALLBACK (send_details), username);
