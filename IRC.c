@@ -38,13 +38,12 @@ char * usern;
 char * passw;
 char * sendrn;
 GtkWidget *pass;
+int i = 0;
 
 
 
 void update_list_rooms() {
     GtkTreeIter iter;
-    int i;
-
 	char response[MAX_RESPONSE];
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	
@@ -53,7 +52,7 @@ void update_list_rooms() {
 	//	printf("User %s added\n", user);
 	//}
     /* Add some messages to the window */
-    for (i = 0; i < 10; i++) {
+   // for (i = 0; i < 10; i++) {
         gchar *msg = g_strdup((gchar *)response);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
@@ -61,7 +60,7 @@ void update_list_rooms() {
                             0, msg,
 	                    -1);
 	g_free (msg);
-    }
+    //}
 }
 
 void update_room_user_names() {
