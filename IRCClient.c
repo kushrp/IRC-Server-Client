@@ -479,7 +479,7 @@ int main(int argc, char *argv[] )
 
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
     myMessage = gtk_entry_new ();
-    gtk_entry_set_max_length (GTK_ENTRY (myMessage), 15);
+    gtk_entry_set_max_length (GTK_ENTRY (myMessage), MAX_MESSAGE_LEN);
     g_signal_connect (myMessage, "activate", G_CALLBACK (sendMessg), myMessage);
     gtk_entry_set_text (GTK_ENTRY (myMessage), "");	
 	gtk_table_attach_defaults(GTK_TABLE (table), myMessage, 3, 7, 8, 9); 
