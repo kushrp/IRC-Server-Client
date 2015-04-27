@@ -46,7 +46,7 @@ void update_list_rooms() {
 	char response[MAX_RESPONSE] = "hi";
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
-	printf("%s\n",response);
+	printf("hi 1\n");
 	char * token = strtok(response,"\r\n");
 	while(token != NULL) 
 	{
@@ -59,9 +59,10 @@ void update_list_rooms() {
 	//}
     /* Add some messages to the window */
    // for (i = 0; i < 10; i++) {
-		printf("%s\n",token);
+		printf("hi 2\n");
         gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
+		printf("hi 3\n");
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
 		g_free (msg);
 		i++;
