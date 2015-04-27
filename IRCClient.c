@@ -21,6 +21,8 @@ char rnames[MAX_RESPONSE] = "";
 char msgz[MAX_RESPONSE] = "";
 int lastMessage = 0;
 
+char * blah;
+
 char * user1;
 char * pass1;
 
@@ -326,7 +328,6 @@ void on_changed(GtkWidget *widget, gpointer label)
 	update_list_names();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
 
-	char * blah;
 	sprintf(blah,"%d",lastMessage);
 	
 	printf("1\n");
