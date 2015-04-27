@@ -37,12 +37,14 @@ char * prevname;
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
 
+
 GtkWidget *messages;
 GtkWidget *view;
 GtkTextBuffer *buffer;
 
 GtkListStore * list_rooms;
 GtkListStore * list_names;
+GtkWidget *window;
 
 
 
@@ -230,7 +232,20 @@ void update_list_rooms() {
     }
 }
 
+static gboolean
+time_handler(GtkWidget *widget)
+{
+  if (widget->window == NULL) return FALSE;
 
+  //gtk_widget_queue_draw(widget);
+
+ // fprintf(stderr, "Hi\n");
+  update_list_rooms();
+  //getmsgs();
+  //update_list_names();
+
+  return TRUE;
+}
 
 
 static void loginwindow(GtkWidget *widget, GtkWindow *data) {
@@ -271,6 +286,7 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 		//if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
 	update_list_rooms();
+	g_timeout_add(5000, (GSourceFunc) time_handler, (gpointer) window);
 	gtk_widget_destroy(window);
 }
 
@@ -382,26 +398,12 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	update_list_rooms();
 }
 
-static gboolean
-time_handler(GtkWidget *widget)
-{
-  if (widget->window == NULL) return FALSE;
 
-  //gtk_widget_queue_draw(widget);
-
- // fprintf(stderr, "Hi\n");
-  update_list_rooms();
-  //getmsgs();
-  //update_list_names();
-
-  return TRUE;
-}
 
 static void create_room1 (GtkWidget *widget, GtkWidget *entry ) {}
 
 int main(int argc, char *argv[] )
 {
-    GtkWidget *window;
     GtkWidget *list;
 	GtkWidget *list2;
     GtkWidget *myMessage;
