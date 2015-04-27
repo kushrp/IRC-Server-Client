@@ -619,9 +619,9 @@ int main( int   argc,
     gtk_widget_show (list);
 
 	
-	//selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
-	//g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
 
 	
    
