@@ -43,7 +43,7 @@ char * txt[100];
 void update_list_rooms() {
     GtkTreeIter iter;
 	char response[MAX_RESPONSE] = "hi";
-	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", " ", response);
+	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
 	printf("hi 1\n");
 	char * token = strtok(response,"\r\n");
@@ -63,11 +63,12 @@ void update_list_rooms() {
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
 		printf("hi 3\n");
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
-		g_free (msg);
+		//g_free (msg);
 		i++;
 	    token = strtok(NULL, "\r\n");
 	} 
     //}
+	printf("hi4\n");
 	
 }
 
