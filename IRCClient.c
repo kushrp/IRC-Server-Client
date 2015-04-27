@@ -390,9 +390,8 @@ time_handler(GtkWidget *widget)
   //gtk_widget_queue_draw(widget);
 
  // fprintf(stderr, "Hi\n");
-  update_list_rooms();
+  //update_list_rooms();
   getmsgs();
-  //getmsgs();
   //update_list_names();
 
   return TRUE;
