@@ -282,7 +282,7 @@ void update_list_names() {
 	//char response[MAX_RESPONSE];
 	sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, names);
 	char * hi = strdup(names);
-	printf("Response Get-users-in-room: %s\n pls work",hi);
+	//printf("Response Get-users-in-room: %s\n pls work",hi);
 	char * token = strtok(hi,"\r\n");
    	while(token != NULL) {
 		printf("Token: %s\n",token);
@@ -362,7 +362,7 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
 	char * u4 = strcat(u3,roomname);
 	//printf("u3: %s\n",u3);
 	getmsgs();
-	sendCommand(host, port, "SEND-MESSAGE", user, password, strdup(u3), response);
+	sendCommand(host, port, "SEND-MESSAGE", user, password, strdup(u4), response);
 	//printf("User in sendmsg: %s \n",user);
 	//printf("Response sendmsg: %s\n",response);
 }
