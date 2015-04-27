@@ -284,6 +284,18 @@ void add_user() {
 	}
 }
 
+void enter_user(char * val) {
+	// Try first to add user in case it does not exist.
+	char response[MAX_RESPONSE];
+	sendCommand(host, port, "ENTER-ROOM", usern, passw, val, response);
+	
+	//printf("%s\n",response);
+	//if (!strcmp(response,"OK\r\n")) {
+	//	printf("User %s added\n", user);
+	//}
+}
+
+
 void fncreate_room() {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
@@ -303,6 +315,7 @@ void getallusrs(char * val) {
 	sendCommand(host, port, "GET-USERS-IN-ROOM", "superman", "clarkkent", val, response);
 	
 	printf("%s\n",response);
+	enter_user(val);
 
 	update_room_user_names(val);
 	//if (!strcmp(response,"OK\r\n")) {
@@ -332,7 +345,7 @@ void on_changed(GtkWidget *widget, gpointer label)
   GtkTreeModel *model;
   char *value;
 
-  printf("hiii\n");
+ // printf("hiii\n");
   if (gtk_tree_selection_get_selected(
       GTK_TREE_SELECTION(widget), &model, &iter)) {
 
