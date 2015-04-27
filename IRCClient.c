@@ -249,7 +249,7 @@ void update_list_rooms() {
 		gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
-		g_free (msg);
+		//g_free (msg);
 		token = strtok(NULL, "\r\n");
     }
 }
@@ -262,7 +262,7 @@ void update_list_names(char * Rname) {
 		gchar *msg = g_strdup("No room selected");
 		gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
-		g_free (msg);
+		//g_free (msg);
 	}
     else {
 		//GtkTreeIter iter;
