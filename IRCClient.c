@@ -17,6 +17,7 @@
 #define MAX_RESPONSE (20 * 1024)
 
 char responsepls[MAX_RESPONSE];
+char responseplss[MAX_RESPONSE];
 
 int lastMessage = 0;
 
@@ -275,10 +276,11 @@ void update_list_names(char * Rname) {
 		//GtkTreeIter iter;
 		gtk_list_store_clear(GTK_LIST_STORE (list_names));
 		char response[MAX_RESPONSE];
-		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, Rname, response);
-		printf("Response Get-users-in-room: %s\n",response);
-		char * token = strtok(response,"\r\n");
+		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, Rname, responseplss);
+		printf("Response Get-users-in-room: %s\n",responseplss);
+		char * token = strtok(responseplss,"\r\n");
     	while(token != NULL) {
+			printf("Token: %s\n",token);
 			gchar *msg = g_strdup((gchar *)token);
         	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
         	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
