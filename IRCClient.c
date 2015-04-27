@@ -21,6 +21,9 @@ char responseplss[MAX_RESPONSE];
 
 int lastMessage = 0;
 
+const char * user1;
+const char * password1;
+
 char * host = "localhost";
 char * user = "supermep";
 char * password = "clarkkent";
@@ -234,10 +237,10 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
     if(response == GTK_RESPONSE_OK) {
         //g_print("The username is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryu)));
         //g_print("The password is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryp)));
-        user = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
-        password = (char *)gtk_entry_get_text (GTK_ENTRY (entryp));
+        user1 = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
+        password1 = (char *)gtk_entry_get_text (GTK_ENTRY (entryp));
         char response[ MAX_RESPONSE ];
-		sendCommand(host, port, "ADD-USER", user, password, "", response);
+		sendCommand(host, port, "ADD-USER", strdup(user1), strdup(password1), "", response);
 		printf("User in Account creation: %s \n",user);
 		if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
