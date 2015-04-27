@@ -35,6 +35,9 @@ char * prevname;
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
 
+GtkWidget *messages;
+GtkWidget *view;
+
 GtkListStore * list_rooms;
 GtkListStore * list_names;
 
@@ -101,7 +104,6 @@ static void insert_text( GtkTextBuffer *buffer, const char * initialText )
 static GtkWidget *create_text( const char * initialText )
 {
    GtkWidget *scrolled_window;
-   GtkWidget *view;
    GtkTextBuffer *buffer;
 
    view = gtk_text_view_new ();
@@ -245,6 +247,7 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 		printf("User in Account creation: %s \n",user);
 		if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
+	update_list_rooms();
 	gtk_widget_destroy(window);
 }
 
@@ -320,6 +323,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	printf("User in enter room: %s \n",user);
 	printf("Response Enter Room: %s\n",response);
 	update_list_names();
+	messages = create_text("Hi\n");
 	prevname = strdup(roomname);
 }
 	
@@ -354,7 +358,6 @@ int main(int argc, char *argv[] )
     GtkWidget *window;
     GtkWidget *list;
 	GtkWidget *list2;
-    GtkWidget *messages;
     GtkWidget *myMessage;
 
 	GtkWidget *R_entry;
