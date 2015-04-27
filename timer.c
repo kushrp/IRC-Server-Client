@@ -61,7 +61,7 @@ main (int argc, char *argv[])
   gtk_window_set_default_size(GTK_WINDOW(window), 170, 100);
 
   gtk_window_set_title(GTK_WINDOW(window), "timer");
-  g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) window);
+  g_timeout_add(5000, (GSourceFunc) time_handler, (gpointer) window);
   gtk_widget_show_all(window);
   time_handler(window);
 
