@@ -333,7 +333,7 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	char response[MAX_RESPONSE];
 	char * u1 = strdup(user);
 	char * u2 = strdup(password);
-	char * u3 = strdup((char *)entry_text);
+	char * u3 = strdup(entry_text);
 	
 	sendCommand(host, port, "CREATE-ROOM", u1, u2, u3, response);
 	printf("User in Create room: %s \n",user);
