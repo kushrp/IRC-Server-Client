@@ -504,7 +504,7 @@ int main( int   argc,
 
 	
 
-	g_timeout_add(5000, (GSourceFunc) update_list_rooms, (gpointer) window);
+	//g_timeout_add(5000, (GSourceFunc) update_list_rooms, (gpointer) window);
 
 	//update_list_rooms();
     
