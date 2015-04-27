@@ -257,7 +257,22 @@ void fncreate_room() {
 	}
 }
 
+static gboolean
+time_handler(GtkWidget *widget)
+{
+  if (widget->window == NULL) return FALSE;
+	printf("hieeee\n");
+	//update_list_rooms();
+/*  time_t curtime;
+  struct tm *loctime;
 
+  curtime = time(NULL);
+  loctime = localtime(&curtime);
+  strftime(buffer, 256, "%T", loctime);
+
+  gtk_widget_queue_draw(widget);
+  return TRUE; */
+}
 
 
 static gboolean delete_event( GtkWidget *widget,
@@ -504,7 +519,8 @@ int main( int   argc,
 
 	
 
-	//g_timeout_add(5000, (GSourceFunc) update_list_rooms, (gpointer) window);
+	g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) window);
+	time_handler(window);
 
 	//update_list_rooms();
     
