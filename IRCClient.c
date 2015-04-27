@@ -326,15 +326,12 @@ void on_changed(GtkWidget *widget, gpointer label)
 	update_list_names();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
 
-	char * space = " ";
-	char c = (char)lastMessage;
-	int len = strlen(space);
-//	space[len] = c;
-//	space[len + 1] = '\0';
+	char * blah;
+	sprintf(blah,"%d",lastMessage);
 	
 	printf("1\n");
 
-/*	char * firststring = strcat(space," ");
+	char * firststring = strcat(blah," ");
 	char * secondstring = strcat(firststring,roomname);
 
 	printf("2\n");
@@ -342,7 +339,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
 
 	printf("3\n");
-*/	
+	
 	insert_text(buffer,"Hiiiiii\n");
 	prevname = strdup(roomname);
 }
