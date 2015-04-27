@@ -321,11 +321,12 @@ void getallusrs(char * val) {
 	//if (!strcmp(response,"OK\r\n")) {
 	//	printf("Room %s added\n", user);
 	//}
-
+	printf("getting out of getallusrs\n");
 }
 
 void refreshmsg(char * val) {
 	// Try first to add user in case it does not exist.
+	printf("inside refreshmsg\n");
 	char response[MAX_RESPONSE];
 	int g = 0;
 	//printf("Hi %d",g++);
@@ -355,7 +356,9 @@ void on_changed(GtkWidget *widget, gpointer label)
   }
 
 	getallusrs(value);
+	printf("on changed after getallusrs\n");
 	refreshmsg(value);
+	printf("on changed after refreshmsg\n");
 	//char *entryText
 	//gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)); //Sets iter and model to the selected entry
 
