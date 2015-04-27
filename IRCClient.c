@@ -455,9 +455,10 @@ int main(int argc, char *argv[] )
 	messages = create_text("Select a room and Messages will be displayed here.\n");    
 	gtk_table_attach_defaults (GTK_TABLE (table), messages, 3, 7, 0, 7);
     gtk_widget_show (messages);
+	gtk_text_view_set_wrap_mode (view, GTK_WRAP_WORD);
+	
 
-
-	sendlabel = gtk_label_new("Type your message below: (Press enter or SEND button)");
+	sendlabel = gtk_label_new("Type your message below: (Enter or SEND)");
 	gtk_table_attach_defaults(GTK_TABLE (table), sendlabel, 3, 7, 7, 8);
 	gtk_widget_show(sendlabel);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
