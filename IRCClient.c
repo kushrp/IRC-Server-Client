@@ -22,7 +22,7 @@ char * host = "localhost";
 char * user = "superman";
 char * password = "clarkkent";
 char * sport;
-int port = 8888;
+int port = 2400;
 
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
