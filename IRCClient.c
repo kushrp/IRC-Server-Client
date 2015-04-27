@@ -325,7 +325,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 
 
 static void create_room (GtkWidget *widget, GtkWidget *entry ) {
-	const gchar *entry_text;
+	const char *entry_text;
     entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
     printf ("Entry contents: %s\n", entry_text);
    // user = (char *)entry_text;
@@ -335,7 +335,7 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	char * u2 = strdup(password);
 	char * u3 = strdup(entry_text);
 	
-	sendCommand(host, port, "CREATE-ROOM", u1, u2, u3, response);
+	sendCommand(host, port, "CREATE-ROOM", strdup(u1), strdup(u2), strdup(u3), response);
 	printf("User in Create room: %s \n",user);
 	printf("Response Create Room: %s\n",response);
 	update_list_rooms();
