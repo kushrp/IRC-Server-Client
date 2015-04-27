@@ -388,7 +388,7 @@ int main(int argc, char *argv[] )
 
 	//list_names LIST
 	list_names = gtk_list_store_new (1, G_TYPE_STRING);
-    //update_list_names();
+    update_list_names();
     list2 = create_list ("Users in Room", list_names);
     gtk_table_attach_defaults (GTK_TABLE (table), list2, 0, 3, 6, 10);
     gtk_widget_show (list2);
