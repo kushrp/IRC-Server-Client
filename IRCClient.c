@@ -198,8 +198,8 @@ void printUsage()
  ___________________________________________________________________________________________________ 
 
 */
-
-void add_user() {
+static void add_user() 
+{
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
 	sendCommand(host, port, "ADD-USER", user, password, "", response);
@@ -239,13 +239,41 @@ void update_list_names() {
     }
 }
 
+static void loginwindow(GtkWidget *widget, GtkWindow *data) {
+	GtkWidget *window, *table;
+	GtkWidget *entryu, *entryp;
+	GtkWidget *labelu, *labelp;
+	gint response;
+	
+	window = gtk_dialog_new_with_buttons ("Encrypted Login Window", NULL, GTK_DIALOG_MODAL, GTK_STOCK_OK, 		GTK_RESPONSE_OK, GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,NULL);
+    gtk_dialog_set_default_response(GTK_DIALOG(window), GTK_RESPONSE_OK);
 
+    labelu = gtk_label_new("Username: ");
+    labelp = gtk_label_new("Password: ");
+    entryu = gtk_entry_new();
+    entryp = gtk_entry_new();
 
+    table = gtk_table_new (2, 2, FALSE);
+    gtk_table_attach_defaults(GTK_TABLE (table), labelu, 0, 1, 0, 1);
+    gtk_table_attach_defaults(GTK_TABLE (table), labelp, 0, 1, 1, 2);
+    gtk_table_attach_defaults(GTK_TABLE (table), entryu, 1, 2, 0, 1);
+    gtk_table_attach_defaults(GTK_TABLE (table), entryp, 1, 2, 1, 2);
 
+    gtk_container_set_border_width(GTK_CONTAINER(table), 5);
+    gtk_box_pack_start_defaults(GTK_BOX  (GTK_DIALOG (window)->vbox), table);
 
-
-
-
+    gtk_widget_show_all(window);
+    response = gtk_dialog_run (GTK_DIALOG(window));
+    if(response == GTK_RESPONSE_OK) {
+        //g_print("The username is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryu)));
+        //g_print("The password is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryp)));
+        user = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
+        password = (char *)gtk_entry_get_text (GTK_ENTRY (entryp));
+        add_user();
+    }
+	gtk_widget_destroy(window);
+}
+	
 
 
 
@@ -275,6 +303,7 @@ int main( int   argc,
 
 	GtkWidget *R_entry;
 	GtkWidget *croom;
+	GtkWidget *cacc;
 
     gtk_init (&argc, &argv);
    
@@ -333,24 +362,32 @@ int main( int   argc,
 	g_signal_connect (croom, "clicked", G_CALLBACK (create_room), R_entry);
 
 
+
+	// Create account BUTTON
+	cacc = gtk_button_new_with_label ("Create Account");
+    gtk_table_attach_defaults(GTK_TABLE (table), cacc, 7, 10, 5, 6); 
+    gtk_widget_show (cacc);
+	g_signal_connect (cacc, "clicked", G_CALLBACK (loginwindow), NULL);
+
+
 	
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
     messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), messages, 0, 4, 2, 5);
+    gtk_table_attach_defaults (GTK_TABLE (table), messages, 3, 7, 0, 7);
     gtk_widget_show (messages);
 
 
 
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
     myMessage = create_text ("I am fine, thanks and you?\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 0, 4, 5, 7);
+    gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 3, 7, 7, 9);
     gtk_widget_show (myMessage);
 
 
 
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
-    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 0, 1, 7, 8); 
+    gtk_table_attach_defaults(GTK_TABLE (table), send_button, 3, 7, 9, 10); 
     gtk_widget_show (send_button);
 
 
