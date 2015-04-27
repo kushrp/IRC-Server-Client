@@ -238,7 +238,7 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
         password = (char *)gtk_entry_get_text (GTK_ENTRY (entryp));
         char response[ MAX_RESPONSE ];
 		sendCommand(host, port, "ADD-USER", user, password, "", response);
-	
+		printf("User in Account creation: %s \n",user);
 		if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
 	gtk_widget_destroy(window);
@@ -300,6 +300,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	 prevname = roomname;
 	 char response[MAX_RESPONSE];
 	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, responsepls);
+	printf("User in Leave room: %s \n",user);
 	 printf("Response Leave room: %s\n",responsepls);
   }
 	
@@ -312,6 +313,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, responsepls);
+	printf("User in enter room: %s \n",user);
 	printf("Response Enter Room: %s\n",responsepls);
 	update_list_names(roomname);
 	prevname = roomname;
@@ -330,6 +332,7 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 
 	char response[MAX_RESPONSE];
 	sendCommand(host, port, "CREATE-ROOM", user, password, (char *)entry_text, response);
+	printf("User in Create room: %s \n",user);
 	printf("Response Create Room: %s\n",response);
 	update_list_rooms();
 }
