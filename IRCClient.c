@@ -329,8 +329,8 @@ void on_changed(GtkWidget *widget, gpointer label)
 	char * space = " ";
 	char c = (char)lastMessage;
 	int len = strlen(space);
-	space[len] = c;
-	space[len + 1] = '\0';
+//	space[len] = c;
+//	space[len + 1] = '\0';
 	
 	printf("1\n");
 
