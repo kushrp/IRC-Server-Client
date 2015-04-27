@@ -306,16 +306,18 @@ void getmsgs() {
 	//printf("1\n");
 
 	char * firststring = strcat(blah," ");
-	char * secondstring = strcat(firststring,strdup(roomname));
+	if(roomname != NULL && user != NULL && password != NULL && buffer != NULL) {
+		char * secondstring = strcat(firststring,strdup(roomname));
 
-	//printf("2\n");
+		//printf("2\n");
 
-	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
+		sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
 
-	//printf("3\n");
+		//printf("3\n");
 	
-	insert_text(buffer,msgz);
-	//lastMessage++;
+		insert_text(buffer,msgz);
+		//lastMessage++;
+	}
 }
 
 
