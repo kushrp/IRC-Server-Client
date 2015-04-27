@@ -278,6 +278,7 @@ void update_list_names(char * Rname) {
 		char response[MAX_RESPONSE];
 		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, Rname, responseplss);
 		printf("Response Get-users-in-room: %s\n",responseplss);
+		char * yolo = strdup(responseplss);
 /*		char * token = strtok(responseplss,"\r\n");
     	while(token != NULL) {
 			printf("Token: %s\n",token);
@@ -289,7 +290,7 @@ void update_list_names(char * Rname) {
     	}
 */
 		char * token;
-		while((token = strsep(&responseplss, "\r\n")) != NULL) {
+		while((token = strsep(&yolo, "\r\n")) != NULL) {
 			printf("Token: %s\n",token);
 			gchar *msg = g_strdup((gchar *)token);
         	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
