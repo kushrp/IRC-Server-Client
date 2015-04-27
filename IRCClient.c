@@ -233,8 +233,7 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
         //g_print("The password is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryp)));
         user = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
         password = (char *)gtk_entry_get_text (GTK_ENTRY (entryp));
-       // char response[ MAX_RESPONSE ];
-		char * response;
+        char response[ MAX_RESPONSE ];
 		sendCommand(host, port, "ADD-USER", user, password, "", response);
 	
 		if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
