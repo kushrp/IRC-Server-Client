@@ -256,7 +256,7 @@ void update_list_rooms() {
 
 void update_list_names(char * Rname) {
 	GtkTreeIter iter;
-	if(strcmp(Rname,"No room selected")) 
+	if(strcmp(Rname,"No room selected") == 0) 
 	{
 		gtk_list_store_clear(GTK_LIST_STORE (list_names));
 		gchar *msg = g_strdup("No room selected");
