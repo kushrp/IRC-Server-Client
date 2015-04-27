@@ -100,7 +100,7 @@ static void insert_text( GtkTextBuffer *buffer, const char * initialText )
    GtkTextIter iter;
  
    gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
-   gtk_text_buffer_insert (buffer, &iter, initialText,-1);
+   gtk_text_buffer_set_text (buffer, initialText,strlen(initialText));
 
 	gtk_text_view_set_overwrite (GTK_TEXT_VIEW(view), TRUE);
 }
