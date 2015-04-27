@@ -507,7 +507,7 @@ static void hello( GtkWidget *widget,
    // return 0;
 }
 
-void  on_changed(GtkWidget *widget, gpointer label) 
+void on_changed(GtkWidget *widget, gpointer label) 
 {
   GtkTreeIter iter;
   GtkTreeModel *model;
@@ -564,6 +564,7 @@ int main( int   argc,
     gtk_table_set_col_spacings(GTK_TABLE (table), 10);
     gtk_widget_show (table);
 
+	text = gtk_label_new(NULL);
     // Add list of rooms. Use columns 0 to 4 (exclusive) and rows 0 to 4 (exclusive)
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
     update_list_rooms();
@@ -574,7 +575,7 @@ int main( int   argc,
 	GtkTreeSelection *selection;
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
-	g_signal_connect(selection, "changed", G_CALLBACK(on_changed), (gpointer) text);
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
 
 	
    
