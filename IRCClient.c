@@ -458,6 +458,7 @@ int main(int argc, char *argv[] )
 
 	sendlabel = gtk_label_new("Type your message below: (Press enter or SEND button)");
 	gtk_table_attach_defaults(GTK_TABLE (table), sendlabel, 3, 7, 7, 8);
+	gtk_widget_show(sendlabel);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
     myMessage = gtk_entry_new ();
     gtk_entry_set_max_length (GTK_ENTRY (myMessage), 15);
