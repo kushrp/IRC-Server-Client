@@ -324,7 +324,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	printf("Response Enter Room: %s\n",response);
 	update_list_names();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-
+/*
 	char * space = " ";
 	char c = (char)lastMessage;
 	int len = strlen(space);
@@ -336,7 +336,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	char * secondstring = strcat(firststring,roomname);
 
 	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
-	
+*/	
 	insert_text(buffer,"Hiiiiii\n");
 	prevname = strdup(roomname);
 }
