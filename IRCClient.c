@@ -210,6 +210,26 @@ void printUsage()
 
 */
 
+void update_list_rooms() {
+    GtkTreeIter iter;
+	printf("1\n");
+	gtk_list_store_clear(GTK_LIST_STORE (list_rooms));
+	printf("2\n");
+	//char response[MAX_RESPONSE];
+	sendCommand(host, port, "LIST-ROOMS", user, password, "", rnames);
+	char * token = strtok(rnames,"\r\n");
+    while(token != NULL) {
+		gchar *msg = g_strdup((gchar *)token);
+        gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
+		//g_free (msg);
+		token = strtok(NULL, "\r\n");
+    }
+}
+
+
+
+
 static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 	GtkWidget *window, *table;
 	GtkWidget *entryu, *entryp;
@@ -252,22 +272,8 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 }
 
 
-void update_list_rooms() {
-    GtkTreeIter iter;
-	printf("1\n");
-	gtk_list_store_clear(GTK_LIST_STORE (list_rooms));
-	printf("2\n");
-	//char response[MAX_RESPONSE];
-	sendCommand(host, port, "LIST-ROOMS", user, password, "", rnames);
-	char * token = strtok(rnames,"\r\n");
-    while(token != NULL) {
-		gchar *msg = g_strdup((gchar *)token);
-        gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
-		//g_free (msg);
-		token = strtok(NULL, "\r\n");
-    }
-}
+
+
 
 void update_list_names() {
 	GtkTreeIter iter;
@@ -297,6 +303,9 @@ void update_list_names() {
     	}
 	//}
 }
+
+
+
 
 void on_changed(GtkWidget *widget, gpointer label) 
 {
