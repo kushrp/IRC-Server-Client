@@ -27,7 +27,7 @@ char * host = "localhost";
 char * user = "superman";
 char * password = "clarkkent";
 char * sport;
-int port = 2400;
+int port = 2350;
 
 char * roomname;
 char * prevname;
@@ -405,7 +405,7 @@ int main(int argc, char *argv[] )
     // list_rooms LIST
 	text = gtk_label_new("");
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
-    update_list_rooms();
+    //update_list_rooms();
     list = create_list ("Rooms", list_rooms);
     gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 3, 0, 4);
     gtk_widget_show (list);
