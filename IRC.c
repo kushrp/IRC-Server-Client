@@ -25,6 +25,7 @@ GtkCellRenderer *cell;
 GtkTreeViewColumn *column; */
 
 char * text;
+GtkWidget *tree_view;
 
 char * host;
 char * user;
@@ -117,7 +118,7 @@ void update_room_user_names(char * val) {
 static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
 {
     GtkWidget *scrolled_window;
-    GtkWidget *tree_view;
+    
     //GtkListStore *model;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column; 
@@ -571,7 +572,7 @@ int main( int   argc,
     gtk_widget_show (list);
 
 	GtkTreeSelection *selection;
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list_rooms));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
 	g_signal_connect(selection, "changed", G_CALLBACK(on_changed), text);
 
