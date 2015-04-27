@@ -610,6 +610,11 @@ int main( int   argc,
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
     update_list_rooms();
     list = create_list ("Rooms", list_rooms);
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+	
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
+
     gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 3, 0, 4);
     gtk_widget_show (list);
 
@@ -642,9 +647,7 @@ int main( int   argc,
 
 	g_signal_connect (create_room, "clicked", G_CALLBACK (send_create_room), room_entry);
 
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
-	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
 	
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
    // messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
