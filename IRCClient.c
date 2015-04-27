@@ -358,7 +358,8 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
 	char * entryy = strdup(entry_text);
 
 	char response[MAX_RESPONSE];
-	char * u3 = strcat(entryy,roomname);
+	char * u3 = strcat(entryy," ");
+	char * u4 = strcat(u3,roomname);
 	//printf("u3: %s\n",u3);
 	getmsgs();
 	sendCommand(host, port, "SEND-MESSAGE", user, password, strdup(u3), response);
