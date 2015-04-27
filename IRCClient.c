@@ -262,9 +262,9 @@ void update_list_rooms() {
     }
 }
 
-void update_list_names(char * Rname) {
+void update_list_names() {
 	GtkTreeIter iter;
-	if(strcmp(Rname,"No room selected") == 0) 
+/*	if(strcmp(Rname,"No room selected") == 0) 
 	{
 		gtk_list_store_clear(GTK_LIST_STORE (list_names));
 		gchar *msg = g_strdup("No room selected");
@@ -272,11 +272,11 @@ void update_list_names(char * Rname) {
 		gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
 		//g_free (msg);
 	}
-    else {
+    else { */
 		//GtkTreeIter iter;
 		gtk_list_store_clear(GTK_LIST_STORE (list_names));
 		char response[MAX_RESPONSE];
-		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, Rname, responseplss);
+		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, responseplss);
 		printf("Response Get-users-in-room: %s\n",responseplss);
 		char * yolo = strdup(responseplss);
 		char * token = strtok(responseplss,"\r\n");
@@ -288,7 +288,7 @@ void update_list_names(char * Rname) {
 			g_free (msg);
 			token = strtok(NULL, "\r\n");
     	}
-	}
+	//}
 }
 
 void on_changed(GtkWidget *widget, gpointer label) 
@@ -315,7 +315,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, responsepls);
 	printf("User in enter room: %s \n",user);
 	printf("Response Enter Room: %s\n",responsepls);
-	update_list_names(roomname);
+	update_list_names();
 	prevname = roomname;
 }
 	
@@ -388,7 +388,7 @@ int main(int argc, char *argv[] )
 
 	//list_names LIST
 	list_names = gtk_list_store_new (1, G_TYPE_STRING);
-    //update_list_names("No room selected");
+    //update_list_names();
     list2 = create_list ("Users in Room", list_names);
     gtk_table_attach_defaults (GTK_TABLE (table), list2, 0, 3, 6, 10);
     gtk_widget_show (list2);
