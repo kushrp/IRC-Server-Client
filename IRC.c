@@ -43,8 +43,8 @@ GtkWidget * room_entry;
 GtkWidget * create_room;
 GtkWidget * namelist;
 
-char * usern;
-char * passw;
+char * usern = "superman";
+char * passw = "clarkkent"; 
 char * sendrn;
 GtkWidget *pass;
 int i = 0;
@@ -355,6 +355,7 @@ void on_changed(GtkWidget *widget, gpointer label)
     //g_free(value);
   }
 
+	enter_user(value);
 	getallusrs(value);
 	printf("on changed after getallusrs\n");
 	refreshmsg(value);
