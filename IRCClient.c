@@ -391,8 +391,8 @@ time_handler(GtkWidget *widget)
 
  // fprintf(stderr, "Hi\n");
   update_list_rooms();
-  getmsgs();
-  update_list_names();
+  //getmsgs();
+  //update_list_names();
 
   return TRUE;
 }
