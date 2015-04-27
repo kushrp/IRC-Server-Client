@@ -304,7 +304,7 @@ void getmsgs() {
 	//printf("1\n");
 
 	char * firststring = strcat(blah," ");
-	char * secondstring = strcat(firststring,roomname);
+	char * secondstring = strcat(firststring,strdup(roomname));
 
 	//printf("2\n");
 
@@ -358,7 +358,7 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
 	char * entryy = strdup(entry_text);
 
 	char response[MAX_RESPONSE];
-	char * u3 = strcat(roomname," ");
+	char * u3 = strcat(strdup(roomname)," ");
 	char * u4 = strcat(u3,entryy);
 	//printf("u3: %s\n",u3);
 	getmsgs();
