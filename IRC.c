@@ -51,13 +51,15 @@ int i = 0;
 char * txt[100];
 
 void update_list_rooms() {
-	
+	printf("inside update list rooms\n");
     GtkTreeIter iter;
 	char response[MAX_RESPONSE] = "hi";
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
 	//printf("hi 1\n");
+	printf("1\n");
 	char * token = strtok(response,"\r\n");
+	printf("2\n");
 	while(token != NULL) 
 	{
 		
@@ -489,7 +491,7 @@ static void send_create_room(GtkWidget *widget, GtkWidget *w1)
   sendrn = (char *)entry_text;
   fncreate_room();
   printf("hi\n");
-  //update_list_rooms();
+  update_list_rooms();
   printf("bye\n");
   
 }
