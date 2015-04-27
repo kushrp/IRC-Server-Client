@@ -277,31 +277,21 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 
 void update_list_names() {
 	GtkTreeIter iter;
-/*	if(strcmp(Rname,"No room selected") == 0) 
-	{
-		gtk_list_store_clear(GTK_LIST_STORE (list_names));
-		gchar *msg = g_strdup("No room selected");
-		gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
-		gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
+	gtk_list_store_clear(GTK_LIST_STORE (list_names));
+	//char response[MAX_RESPONSE];
+	sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, names);
+	char * hi = strdup(names);
+	printf("Response Get-users-in-room: %s\n pls work",hi);
+	char * token = strtok(hi,"\r\n");
+   	while(token != NULL) {
+		printf("Token: %s\n",token);
+		gchar *msg = g_strdup((gchar *)token);
+       	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
+       	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
 		//g_free (msg);
-	}
-    else { */
-		//GtkTreeIter iter;
-		gtk_list_store_clear(GTK_LIST_STORE (list_names));
-		//char response[MAX_RESPONSE];
-		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, names);
-		char * hi = strdup(names);
-		printf("Response Get-users-in-room: %s\n pls work",hi);
-		char * token = strtok(hi,"\r\n");
-    	while(token != NULL) {
-			printf("Token: %s\n",token);
-			gchar *msg = g_strdup((gchar *)token);
-        	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
-        	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
-			//g_free (msg);
-			token = strtok(NULL, "\r\n");
-    	}
-	//}
+		token = strtok(NULL, "\r\n");
+   	}
+//}
 }
 
 
@@ -312,7 +302,7 @@ void on_changed(GtkWidget *widget, gpointer label)
   GtkTreeIter iter;
   GtkTreeModel *model;
   //char *value;
-  if(prevname !=NULL){
+/*  if(prevname !=NULL){
 	 prevname = roomname;
 	 char response[MAX_RESPONSE];
 	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
@@ -320,7 +310,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	 printf("Response Leave room: %s\n",response);
   }
 	
-
+*/
   if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
     gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
     gtk_label_set_text(GTK_LABEL(label), roomname);
@@ -336,11 +326,24 @@ void on_changed(GtkWidget *widget, gpointer label)
 	insert_text(buffer,"Hiiiiii\n");
 	prevname = strdup(roomname);
 }
-	
 
+static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
+	const char *entry_text;
+    entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
+    printf ("Entry contents: %s\n", entry_text);
+   // user = (char *)entry_text;
 
-
-
+	char response[MAX_RESPONSE];
+	char * u1 = strdup(user);
+	char * u2 = strdup(password);
+	char * u3 = strdup(entry_text);
+	printf("u1: %s\n",u1);
+	printf("u2: %s\n",u2);
+	printf("u3: %s\n",u3);
+	sendCommand(host, port, "SEND-MESSAGE", strdup(u1), strdup(u2), strdup(u3), response);
+	printf("User in sendmsg: %s \n",user);
+	printf("Response sendmsg: %s\n",response);
+}
 
 static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	const char *entry_text;
@@ -369,6 +372,7 @@ int main(int argc, char *argv[] )
     GtkWidget *list;
 	GtkWidget *list2;
     GtkWidget *myMessage;
+	GtkWidget *sendlabel;
 
 	GtkWidget *R_entry;
 	GtkWidget *croom;
@@ -452,11 +456,17 @@ int main(int argc, char *argv[] )
     gtk_widget_show (messages);
 
 
-
+	sendlabel = gtk_label_new("Type your message below: (Press enter or SEND button)");
+	gtk_table_attach_defaults(GTK_TABLE (table), sendlabel, 3, 7, 7, 8);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    //myMessage = create_text ("I am fine, thanks and you?\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 3, 7, 7, 9);
+    myMessage = gtk_entry_new ();
+    gtk_entry_set_max_length (GTK_ENTRY (myMessage), 15);
+    g_signal_connect (myMessage, "activate", G_CALLBACK (sendMessg), myMessage);
+    gtk_entry_set_text (GTK_ENTRY (myMessage), "");	
+	gtk_table_attach_defaults(GTK_TABLE (table), myMessage, 3, 7, 8, 9); 
     gtk_widget_show (myMessage);
+   // gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 3, 7, 7, 9);
+   // gtk_widget_show (myMessage);
 
 
 
