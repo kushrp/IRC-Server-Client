@@ -302,9 +302,9 @@ void fncreate_room() {
 	sendCommand(host, port, "CREATE-ROOM", "superman", "clarkkent", sendrn, response);
 	
 	printf("%s\n",response);
-	if (!strcmp(response,"OK\r\n")) {
-		printf("Room %s added\n", user);
-	}
+	//if (!strcmp(response,"OK\r\n")) {
+	//	printf("Room %s added\n", user);
+	//}
 }
 
 void getallusrs(char * val) {
@@ -488,7 +488,9 @@ static void send_create_room(GtkWidget *widget, GtkWidget *w1)
   printf ("Entry contents: %s\n", entry_text);
   sendrn = (char *)entry_text;
   fncreate_room();
-  update_list_rooms();
+  printf("hi\n");
+  //update_list_rooms();
+  printf("bye\n");
   
 }
 
