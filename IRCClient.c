@@ -198,16 +198,6 @@ void printUsage()
  ___________________________________________________________________________________________________ 
 
 */
-static void add_user() 
-{
-	// Try first to add user in case it does not exist.
-	char response[ MAX_RESPONSE ];
-	sendCommand(host, port, "ADD-USER", user, password, "", response);
-	
-	if (!strcmp(response,"OK\r\n")) {
-		printf("User %s added\n", user);
-	}
-}
 
 static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 	GtkWidget *window, *table;
@@ -239,7 +229,10 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
         //g_print("The password is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryp)));
         user = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
         password = (char *)gtk_entry_get_text (GTK_ENTRY (entryp));
-        add_user();
+        char response[ MAX_RESPONSE ];
+		sendCommand(host, port, "ADD-USER", user, password, "", response);
+	
+		if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
 	gtk_widget_destroy(window);
 }
@@ -248,16 +241,11 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 void update_list_rooms() {
     GtkTreeIter iter;
     int i;
-
-    /* Add some messages to the window */
     for (i = 0; i < 10; i++) {
         gchar *msg = g_strdup_printf ("Room %d", i);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
-	                    &iter,
-                            0, msg,
-	                    -1);
-	g_free (msg);
+        gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
+		g_free (msg);
     }
 }
 
@@ -265,12 +253,9 @@ void update_list_names() {
     GtkTreeIter iter;
     int i;
     for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("Room %d", i);
+        gchar *msg = g_strdup_printf ("User %d", i);
         gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_names), 
-	                    &iter,
-                            0, msg,
-	                    -1);
+        gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
 		g_free (msg);
     }
 }
@@ -340,7 +325,7 @@ int main(int argc, char *argv[] )
 	//list_names LIST
 	list_names = gtk_list_store_new (1, G_TYPE_STRING);
     update_list_names();
-    list2 = create_list ("Rooms", list_names);
+    list2 = create_list ("Users in Room", list_names);
     gtk_table_attach_defaults (GTK_TABLE (table), list2, 0, 3, 6, 10);
     gtk_widget_show (list2);
 
@@ -366,7 +351,7 @@ int main(int argc, char *argv[] )
 
 
 	// Create account BUTTON
-	cacc = gtk_button_new_with_label ("Create Account");
+	cacc = gtk_button_new_with_label ("Create Account / Sign In");
     gtk_table_attach_defaults(GTK_TABLE (table), cacc, 7, 10, 5, 6); 
     gtk_widget_show (cacc);
 	g_signal_connect (cacc, "clicked", G_CALLBACK (loginwindow), NULL);
