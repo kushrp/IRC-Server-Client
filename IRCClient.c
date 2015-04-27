@@ -192,7 +192,7 @@ int sendCommand(char * host, int port, char * command, char * user,
 		len += n;
 	}
 	response[len] = '\0';
-	printf("Response sendCommand:%s\n", response);
+	printf("User: %s | Response sendCommand %s :%s\n",user,command, response);
 
 	close(sock);
 }
@@ -320,7 +320,7 @@ void getmsgs() {
 
 void on_changed(GtkWidget *widget, gpointer label) 
 {
-	printf("11\n");
+	//printf("11\n");
   GtkTreeIter iter;
   GtkTreeModel *model;
   //char *value;
