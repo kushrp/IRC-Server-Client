@@ -209,36 +209,6 @@ static void add_user()
 	}
 }
 
-void update_list_rooms() {
-    GtkTreeIter iter;
-    int i;
-
-    /* Add some messages to the window */
-    for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("Room %d", i);
-        gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
-	                    &iter,
-                            0, msg,
-	                    -1);
-	g_free (msg);
-    }
-}
-
-void update_list_names() {
-    GtkTreeIter iter;
-    int i;
-    for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("Room %d", i);
-        gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_names), 
-	                    &iter,
-                            0, msg,
-	                    -1);
-		g_free (msg);
-    }
-}
-
 static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 	GtkWidget *window, *table;
 	GtkWidget *entryu, *entryp;
@@ -273,6 +243,39 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
     }
 	gtk_widget_destroy(window);
 }
+
+
+void update_list_rooms() {
+    GtkTreeIter iter;
+    int i;
+
+    /* Add some messages to the window */
+    for (i = 0; i < 10; i++) {
+        gchar *msg = g_strdup_printf ("Room %d", i);
+        gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
+	                    &iter,
+                            0, msg,
+	                    -1);
+	g_free (msg);
+    }
+}
+
+void update_list_names() {
+    GtkTreeIter iter;
+    int i;
+    for (i = 0; i < 10; i++) {
+        gchar *msg = g_strdup_printf ("Room %d", i);
+        gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (list_names), 
+	                    &iter,
+                            0, msg,
+	                    -1);
+		g_free (msg);
+    }
+}
+
+
 	
 
 
@@ -292,8 +295,7 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 
 static void create_room1 (GtkWidget *widget, GtkWidget *entry ) {}
 
-int main( int   argc,
-          char *argv[] )
+int main(int argc, char *argv[] )
 {
     GtkWidget *window;
     GtkWidget *list;
