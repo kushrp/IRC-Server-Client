@@ -341,7 +341,8 @@ void on_changed(GtkWidget *widget, gpointer label)
 
 	printf("3\n");
 	
-	insert_text(buffer,"Hiiiiii\n");
+	insert_text(buffer,msgz);
+	lastMessage++;
 	prevname = strdup(roomname);
 }
 
