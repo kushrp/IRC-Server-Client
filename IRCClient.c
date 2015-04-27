@@ -22,7 +22,7 @@ char responseplss[MAX_RESPONSE];
 int lastMessage = 0;
 
 char * host = "localhost";
-char * user = "superman";
+char * user = "supermep";
 char * password = "clarkkent";
 char * sport;
 int port = 2400;
