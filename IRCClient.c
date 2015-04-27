@@ -296,8 +296,8 @@ void on_changed(GtkWidget *widget, gpointer label)
   if(prevname !=NULL){
 	 prevname = roomname;
 	 char response[MAX_RESPONSE];
-	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
-	 printf("Response Leave room: %s\n",response);
+	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, responsepls);
+	 printf("Response Leave room: %s\n",responsepls);
   }
 	
 
@@ -308,8 +308,8 @@ void on_changed(GtkWidget *widget, gpointer label)
   }
 	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
-	printf("Response Enter Room: %s\n",response);
+	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, responsepls);
+	printf("Response Enter Room: %s\n",responsepls);
 	update_list_names(roomname);
 	prevname = roomname;
 }
@@ -326,8 +326,8 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
    // user = (char *)entry_text;
 
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "CREATE-ROOM", user, password, (char *)entry_text, responsepls);
-	printf("Response Create Room: %s\n",responsepls);
+	sendCommand(host, port, "CREATE-ROOM", user, password, (char *)entry_text, response);
+	printf("Response Create Room: %s\n",response);
 	update_list_rooms();
 }
 
