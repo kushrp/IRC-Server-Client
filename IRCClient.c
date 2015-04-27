@@ -16,9 +16,6 @@
 #define MAX_MESSAGE_LEN 300
 #define MAX_RESPONSE (20 * 1024)
 
-char responsepls[MAX_RESPONSE];
-char responseplss[MAX_RESPONSE];
-
 int lastMessage = 0;
 
 char * user1;
@@ -281,10 +278,9 @@ void update_list_names() {
 		//GtkTreeIter iter;
 		gtk_list_store_clear(GTK_LIST_STORE (list_names));
 		char response[MAX_RESPONSE];
-		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, responseplss);
-		printf("Response Get-users-in-room: %s\n",responseplss);
-		char * yolo = strdup(responseplss);
-		char * token = strtok(responseplss,"\r\n");
+		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, response);
+		printf("Response Get-users-in-room: %s\n",response);
+		char * token = strtok(response,"\r\n");
     	while(token != NULL) {
 			printf("Token: %s\n",token);
 			gchar *msg = g_strdup((gchar *)token);
@@ -304,9 +300,9 @@ void on_changed(GtkWidget *widget, gpointer label)
   if(prevname !=NULL){
 	 prevname = roomname;
 	 char response[MAX_RESPONSE];
-	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, responsepls);
+	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
 	printf("User in Leave room: %s \n",user);
-	 printf("Response Leave room: %s\n",responsepls);
+	 printf("Response Leave room: %s\n",response);
   }
 	
 
@@ -317,9 +313,9 @@ void on_changed(GtkWidget *widget, gpointer label)
   }
 	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, responsepls);
+	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
 	printf("User in enter room: %s \n",user);
-	printf("Response Enter Room: %s\n",responsepls);
+	printf("Response Enter Room: %s\n",response);
 	update_list_names();
 	prevname = strdup(roomname);
 }
