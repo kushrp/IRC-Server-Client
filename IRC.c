@@ -49,7 +49,8 @@ void update_list_rooms() {
 	char response[MAX_RESPONSE] = "hi";
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	printf("fff\n");
-	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
+
+	gtk_list_store_clear(GTK_LIST_STORE (list)); 
 	
 	
 	//printf("hi 1\n");
@@ -346,8 +347,7 @@ void on_changed(GtkWidget *widget, gpointer label)
   char *value;
 
  // printf("hiii\n");
-  if (gtk_tree_selection_get_selected(
-      GTK_TREE_SELECTION(widget), &model, &iter)) {
+  if (gtk_tree_selection_get_selected( GTK_TREE_SELECTION(widget), &model, &iter)) {
 
     gtk_tree_model_get(model, &iter, 0, &value,  -1);
     gtk_label_set_text(GTK_LABEL(label), value);
