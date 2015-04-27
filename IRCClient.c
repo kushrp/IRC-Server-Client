@@ -350,7 +350,7 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
 	char response[MAX_RESPONSE];
 	char * u1 = strdup(user);
 	char * u2 = strdup(password);
-	char * u3 = strcat(entry_text,strdup(roomname));
+	char * u3 = strcat(entry_text,roomname);
 	printf("u1: %s\n",u1);
 	printf("u2: %s\n",u2);
 	printf("u3: %s\n",u3);
