@@ -23,6 +23,9 @@ TestIRCServer: TestIRCServer.c
 IRC: IRC.c
 	gcc IRC.c -o IRC `pkg-config --cflags --libs gtk+-2.0`
 
+IRCClient: IRCClient.c
+	gcc IRCClient.c -o IRCClient `pkg-config --cflags --libs gtk+-2.0`
+
 git:
 	git add -A  >> .local.git.out
 	git commit -a -m "Make IRCclient" >> .local.git.out
