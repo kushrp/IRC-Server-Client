@@ -316,7 +316,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	printf("User in enter room: %s \n",user);
 	printf("Response Enter Room: %s\n",responsepls);
 	update_list_names();
-	prevname = roomname;
+	prevname = strdup(roomname);
 }
 	
 
@@ -331,9 +331,9 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
    // user = (char *)entry_text;
 
 	char response[MAX_RESPONSE];
-	const char * u1 = strdup(user);
-	const char * u2 = strdup(password);
-	const char * u3 = strdup((char *)entry_text);
+	char * u1 = strdup(user);
+	char * u2 = strdup(password);
+	char * u3 = strdup((char *)entry_text);
 	
 	sendCommand(host, port, "CREATE-ROOM", u1, u2, u3, response);
 	printf("User in Create room: %s \n",user);
