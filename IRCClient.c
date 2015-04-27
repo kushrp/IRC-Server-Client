@@ -25,11 +25,11 @@ int lastMessage = 0;
 char * user1;
 char * pass1;
 
-char * host = "moore05.cs.purdue.edu";
+char * host = "localhost";
 char * user = "superman";
 char * password = "clarkkent";
 char * sport;
-int port = 2404;
+int port = 2350;
 
 char * roomname;
 char * prevname;
