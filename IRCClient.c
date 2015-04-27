@@ -25,11 +25,11 @@ int lastMessage = 0;
 char * user1;
 char * pass1;
 
-char * host = "moore18.cs.purdue.edu";
+char * host = "moore05.cs.purdue.edu";
 char * user = "superman";
 char * password = "clarkkent";
 char * sport;
-int port = 2407;
+int port = 2404;
 
 char * roomname;
 char * prevname;
@@ -408,6 +408,11 @@ static void create_room1 (GtkWidget *widget, GtkWidget *entry ) {}
 
 int main(int argc, char *argv[] )
 {
+	if(argc >=2) {
+		host = argv[1];
+		port = atoi(argv[2]);
+	}	
+	
     GtkWidget *window;
     GtkWidget *list;
 	GtkWidget *list2;
