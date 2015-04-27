@@ -331,7 +331,11 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
    // user = (char *)entry_text;
 
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "CREATE-ROOM", strdup(user), password, (char *)entry_text, response);
+	const char * u1 = strdup(user);
+	const char * u2 = strdup(password);
+	const char * u3 = strdup((char *)entry_text);
+	
+	sendCommand(host, port, "CREATE-ROOM", u1, u2, u3, response);
 	printf("User in Create room: %s \n",user);
 	printf("Response Create Room: %s\n",response);
 	update_list_rooms();
