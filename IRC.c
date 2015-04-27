@@ -50,7 +50,7 @@ void update_list_rooms() {
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	printf("fff\n");
 
-	gtk_list_store_clear(GTK_LIST_STORE (list)); 
+	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
 	
 	
 	//printf("hi 1\n");
@@ -619,10 +619,7 @@ int main( int   argc,
     gtk_widget_show (list);
 
 	
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
-	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
-
 	
    
 	room_user_names = gtk_list_store_new (1, G_TYPE_STRING);
@@ -672,7 +669,10 @@ int main( int   argc,
 
 	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
 
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
+
 
 	g_timeout_add(5000, (GSourceFunc) time_handler, (gpointer) window);
 	time_handler(window);
