@@ -641,6 +641,10 @@ int main( int   argc,
     gtk_widget_show (create_room);
 
 	g_signal_connect (create_room, "clicked", G_CALLBACK (send_create_room), room_entry);
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+	
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
 	
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
    // messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
@@ -664,9 +668,7 @@ int main( int   argc,
 
 	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
 
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
-	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
 
 
 	g_timeout_add(5000, (GSourceFunc) time_handler, (gpointer) window);
