@@ -24,6 +24,8 @@ char * password = "clarkkent";
 char * sport;
 int port = 2400;
 
+char * roomname;
+
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
 
@@ -286,14 +288,14 @@ void on_changed(GtkWidget *widget, gpointer label)
 {
   GtkTreeIter iter;
   GtkTreeModel *model;
-  char *value;
+  //char *value;
 
   if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
-    gtk_tree_model_get(model, &iter, 0, &value,  -1);
-    gtk_label_set_text(GTK_LABEL(label), value);
+    gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
+    gtk_label_set_text(GTK_LABEL(label), roomname);
     //g_free(value);
   }
-	printf("%s\n",value);
+	//printf("%s\n",value);
 
 }
 	
@@ -351,7 +353,7 @@ int main(int argc, char *argv[] )
 
 
     // list_rooms LIST
-	text = gtk_label_new("hiiiiiiii");
+	text = gtk_label_new("");
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
     update_list_rooms();
     list = create_list ("Rooms", list_rooms);
