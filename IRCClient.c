@@ -296,6 +296,25 @@ void update_list_names() {
 	printf("Leaving list names\n");
 }
 
+void getmsgs() {
+	char blah[20];
+
+	sprintf(blah,"%d",lastMessage);
+	
+	printf("1\n");
+
+	char * firststring = strcat(blah," ");
+	char * secondstring = strcat(firststring,roomname);
+
+	printf("2\n");
+
+	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
+
+	printf("3\n");
+	
+	insert_text(buffer,msgz);
+	lastMessage++;
+}
 
 
 
@@ -325,24 +344,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	//printf("Response Enter Room: %s\n",response);
 	update_list_names();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-
-	char blah[20];
-
-	sprintf(blah,"%d",lastMessage);
-	
-	printf("1\n");
-
-	char * firststring = strcat(blah," ");
-	char * secondstring = strcat(firststring,roomname);
-
-	printf("2\n");
-
-	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
-
-	printf("3\n");
-	
-	insert_text(buffer,msgz);
-	lastMessage++;
+	getmsgs();
 	prevname = strdup(roomname);
 }
 
@@ -357,6 +359,7 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
 	char response[MAX_RESPONSE];
 	char * u3 = strcat(entryy,roomname);
 	//printf("u3: %s\n",u3);
+	getmsgs();
 	sendCommand(host, port, "SEND-MESSAGE", user, password, strdup(u3), response);
 	//printf("User in sendmsg: %s \n",user);
 	//printf("Response sendmsg: %s\n",response);
