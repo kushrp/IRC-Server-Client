@@ -301,16 +301,16 @@ void getmsgs() {
 
 	sprintf(blah,"%d",lastMessage);
 	
-	printf("1\n");
+	//printf("1\n");
 
 	char * firststring = strcat(blah," ");
 	char * secondstring = strcat(firststring,roomname);
 
-	printf("2\n");
+	//printf("2\n");
 
 	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
 
-	printf("3\n");
+	//printf("3\n");
 	
 	insert_text(buffer,msgz);
 	lastMessage++;
