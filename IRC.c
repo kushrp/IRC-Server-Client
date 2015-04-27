@@ -26,6 +26,7 @@ GtkTreeViewColumn *column; */
 
 GtkWidget * text;
 GtkWidget *tree_view;
+GtkTreeSelection *selection;
 
 char * host;
 char * user;
@@ -305,11 +306,35 @@ void getallusrs(char * val) {
 
 }
 
+void on_changed(GtkWidget *widget, gpointer label) 
+{
+  GtkTreeIter iter;
+  GtkTreeModel *model;
+  char *value;
+
+  printf("hiii\n");
+  if (gtk_tree_selection_get_selected(
+      GTK_TREE_SELECTION(widget), &model, &iter)) {
+
+    gtk_tree_model_get(model, &iter, 0, &value,  -1);
+    gtk_label_set_text(GTK_LABEL(label), value);
+    //g_free(value);
+  }
+
+	getallusrs(value);
+	//char *entryText
+	//gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)); //Sets iter and model to the selected entry
+
+	//gtk_tree_model_get(model, &iter, 0, &entryText, -1);
+	//g_free(entryText) //Once you're done with it.
+
+}
+
 static gboolean
 time_handler(GtkWidget *widget)
 {
   if (widget->window == NULL) return FALSE;
-	printf("hieeee\n");
+/*	printf("hieeee\n");
 	GtkTreeIter iter;
 	char response[MAX_RESPONSE] = "hi";
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
@@ -326,8 +351,8 @@ time_handler(GtkWidget *widget)
 	//	printf("User %s added\n", user);
 	//}
     /* Add some messages to the window */
-   // for (i = 0; i < 10; i++) {
-		printf("hi 2\n");
+    //for (i = 0; i < 10; i++) {
+/*		printf("hi 2\n");
         gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
 		printf("hi 3\n");
@@ -348,6 +373,10 @@ time_handler(GtkWidget *widget)
 
   gtk_widget_queue_draw(widget);
   return TRUE; */
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+	
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
 }
 
 
@@ -507,29 +536,7 @@ static void hello( GtkWidget *widget,
    // return 0;
 }
 
-void on_changed(GtkWidget *widget, gpointer label) 
-{
-  GtkTreeIter iter;
-  GtkTreeModel *model;
-  char *value;
 
-  printf("hiii\n");
-  if (gtk_tree_selection_get_selected(
-      GTK_TREE_SELECTION(widget), &model, &iter)) {
-
-    gtk_tree_model_get(model, &iter, 0, &value,  -1);
-    gtk_label_set_text(GTK_LABEL(label), value);
-    //g_free(value);
-  }
-
-	getallusrs(value);
-	//char *entryText
-	//gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)); //Sets iter and model to the selected entry
-
-	//gtk_tree_model_get(model, &iter, 0, &entryText, -1);
-	//g_free(entryText) //Once you're done with it.
-
-}
 
 
 int main( int   argc,
@@ -572,7 +579,7 @@ int main( int   argc,
     gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 3, 0, 4);
     gtk_widget_show (list);
 
-	GtkTreeSelection *selection;
+	
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
 	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
@@ -627,8 +634,8 @@ int main( int   argc,
 
 	
 
-//	g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) window);
-//	time_handler(window);
+	g_timeout_add(5000, (GSourceFunc) time_handler, (gpointer) window);
+	time_handler(window);
 
 	//update_list_rooms();
     
