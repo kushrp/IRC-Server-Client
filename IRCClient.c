@@ -241,7 +241,9 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 
 void update_list_rooms() {
     GtkTreeIter iter;
+	printf("1\n");
 	gtk_list_store_clear(GTK_LIST_STORE (list_rooms));
+	printf("2\n");
 	char response[MAX_RESPONSE];
 	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
 	char * token = strtok(response,"\r\n");
