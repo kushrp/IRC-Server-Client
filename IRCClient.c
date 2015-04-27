@@ -396,8 +396,8 @@ int main(int argc, char *argv[] )
     // Table 10x10
     GtkWidget *table = gtk_table_new (10, 10, TRUE);
     gtk_container_add (GTK_CONTAINER (window), table);
-    gtk_table_set_row_spacings(GTK_TABLE (table), 10);
-    gtk_table_set_col_spacings(GTK_TABLE (table), 10);
+    gtk_table_set_row_spacings(GTK_TABLE (table), 7);
+    gtk_table_set_col_spacings(GTK_TABLE (table), 7);
     gtk_widget_show (table);
 
 
@@ -451,8 +451,9 @@ int main(int argc, char *argv[] )
 
 	
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
-    gtk_table_attach_defaults (GTK_TABLE (table), messages, 3, 7, 0, 7);
+   // messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
+	messages = create_text("Select a room and Messages will be displayed here.\n");    
+	gtk_table_attach_defaults (GTK_TABLE (table), messages, 3, 7, 0, 7);
     gtk_widget_show (messages);
 
 
