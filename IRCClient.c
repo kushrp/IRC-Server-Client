@@ -19,9 +19,8 @@
 char names[MAX_RESPONSE] = "";
 char rnames[MAX_RESPONSE] = "";
 char msgz[MAX_RESPONSE] = "";
-int lastMessage = 0;
 
-char * blah;
+int lastMessage = 0;
 
 char * user1;
 char * pass1;
@@ -204,7 +203,6 @@ void printUsage()
 	exit(1);
 }
 
-
 /*
 					ALL USEFUL FUNCTIONS START HERE
  ___________________________________________________________________________________________________
@@ -327,6 +325,8 @@ void on_changed(GtkWidget *widget, gpointer label)
 	//printf("Response Enter Room: %s\n",response);
 	update_list_names();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+
+	char blah[20];
 
 	sprintf(blah,"%d",lastMessage);
 	
