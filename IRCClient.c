@@ -313,7 +313,7 @@ void getmsgs() {
 	//printf("3\n");
 	
 	insert_text(buffer,msgz);
-	lastMessage++;
+	//lastMessage++;
 }
 
 
