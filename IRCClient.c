@@ -382,6 +382,21 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	update_list_rooms();
 }
 
+static gboolean
+time_handler(GtkWidget *widget)
+{
+  if (widget->window == NULL) return FALSE;
+
+  //gtk_widget_queue_draw(widget);
+
+ // fprintf(stderr, "Hi\n");
+  update_list_rooms();
+  getmsgs();
+  update_list_names();
+
+  return TRUE;
+}
+
 static void create_room1 (GtkWidget *widget, GtkWidget *entry ) {}
 
 int main(int argc, char *argv[] )
@@ -497,11 +512,12 @@ int main(int argc, char *argv[] )
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
     gtk_table_attach_defaults(GTK_TABLE (table), send_button, 3, 7, 9, 10); 
 	g_signal_connect (send_button, "clicked", G_CALLBACK (sendMessg), myMessage);
-	gtk_widget_show (send_button);
+	gtk_widget_show (send_button);    
 	
-    
     gtk_widget_show (table);
     gtk_widget_show (window);
+
+	g_timeout_add(5000, (GSourceFunc) time_handler, (gpointer) window);
 
     gtk_main ();
 

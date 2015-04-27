@@ -38,6 +38,7 @@ time_handler(GtkWidget *widget)
   return TRUE;
 }
 
+
 int
 main (int argc, char *argv[])
 {
