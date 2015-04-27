@@ -186,7 +186,7 @@ int sendCommand(char * host, int port, char * command, char * user,
 		len += n;
 	}
 
-	//printf("response:%s\n", response);
+	printf("response:%s\n", response);
 
 	close(sock);
 }
