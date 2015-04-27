@@ -25,6 +25,7 @@ char * sport;
 int port = 2400;
 
 char * roomname;
+char * prevname;
 
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
@@ -273,6 +274,7 @@ void update_list_names(char * Rname) {
 		gtk_list_store_clear(GTK_LIST_STORE (list_names));
 		char response[MAX_RESPONSE];
 		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, Rname, response);
+		printf("Response Get-users-in-room: %s\n",response);
 		char * token = strtok(response,"\r\n");
     	while(token != NULL) {
 			gchar *msg = g_strdup((gchar *)token);
@@ -289,6 +291,13 @@ void on_changed(GtkWidget *widget, gpointer label)
   GtkTreeIter iter;
   GtkTreeModel *model;
   //char *value;
+  if(prevname !=NULL){
+	 prevname = roomname;
+	 char response[MAX_RESPONSE];
+	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
+	 printf("Response Leave room: %s\n",response);
+  }
+	
 
   if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
     gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
@@ -296,7 +305,11 @@ void on_changed(GtkWidget *widget, gpointer label)
     //g_free(value);
   }
 	//printf("%s\n",value);
-
+	char response[MAX_RESPONSE];
+	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
+	printf("Response Enter Room: %s\n",response);
+	update_list_names(roomname);
+	prevname = roomname;
 }
 	
 
@@ -330,6 +343,8 @@ int main(int argc, char *argv[] )
 	GtkWidget *croom;
 	GtkWidget *cacc;
 	GtkWidget *text;
+
+	prevname = NULL;
 
     gtk_init (&argc, &argv);
    
