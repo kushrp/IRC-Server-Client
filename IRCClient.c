@@ -18,6 +18,7 @@
 
 char names[MAX_RESPONSE] = "";
 char rnames[MAX_RESPONSE] = "";
+char msgz[MAX_RESPONSE] = "";
 int lastMessage = 0;
 
 char * user1;
@@ -323,6 +324,12 @@ void on_changed(GtkWidget *widget, gpointer label)
 	printf("Response Enter Room: %s\n",response);
 	update_list_names();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+
+	char * firststring = strcat((char)lastMessage," ");
+	char * secondstring = strcat(firststring,roomname);
+
+	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
+	
 	insert_text(buffer,"Hiiiiii\n");
 	prevname = strdup(roomname);
 }
@@ -336,7 +343,7 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
 	char response[MAX_RESPONSE];
 	char * u1 = strdup(user);
 	char * u2 = strdup(password);
-	char * u3 = strdup(entry_text);
+	char * u3 = strcat(entry_text,strdup(roomname));
 	printf("u1: %s\n",u1);
 	printf("u2: %s\n",u2);
 	printf("u3: %s\n",u3);
@@ -359,8 +366,8 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	printf("u2: %s\n",u2);
 	printf("u3: %s\n",u3);
 	sendCommand(host, port, "CREATE-ROOM", strdup(u1), strdup(u2), strdup(u3), response);
-	printf("User in Create room: %s \n",user);
-	printf("Response Create Room: %s\n",response);
+	printf("User in Create room: %s ",user);
+	printf("Response Create Room: %s",response);
 	update_list_rooms();
 }
 
