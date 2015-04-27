@@ -16,9 +16,9 @@
 #define MAX_MESSAGE_LEN 300
 #define MAX_RESPONSE (20 * 1024)
 
-char names[MAX_RESPONSE] = "";
-char rnames[MAX_RESPONSE] = "";
-char msgz[MAX_RESPONSE] = "";
+char names[1024] = "";
+char rnames[1024] = "";
+char msgz[10240] = "";
 
 int lastMessage = 0;
 
@@ -194,7 +194,7 @@ int sendCommand(char * host, int port, char * command, char * user,
 		len += n;
 	}
 	response[len] = '\0';
-	printf("User: %s | Response sendCommand %s :%s\n",user,command, response);
+	//printf("User: %s | Response sendCommand %s :%s\n",user,command, response);
 
 	close(sock);
 }
@@ -328,14 +328,17 @@ void on_changed(GtkWidget *widget, gpointer label)
   GtkTreeIter iter;
   GtkTreeModel *model;
   //char *value;
-/*  if(prevname !=NULL){
+  if(prevname !=NULL){
+	char * er;
 	 prevname = roomname;
 	 char response[MAX_RESPONSE];
+	 sprintf(er,"Hey! %s is leaving the room. GoodBye!",user);
+	 sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
 	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
 	// printf("User in Leave room: %s \n",user);
 	// printf("Response Leave room: %s\n",response);
   }
-*/
+
 	//printf("22\n");
   if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
 	gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
@@ -344,7 +347,10 @@ void on_changed(GtkWidget *widget, gpointer label)
   }
 	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
+		char * er;
+	sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
+	sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
 	//printf("User in enter room: %s \n",user);
 	//printf("Response Enter Room: %s\n",response);
 	update_list_names();
@@ -358,7 +364,6 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
     entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
     printf ("Entry contents: %s\n", entry_text);
    // user = (char *)entry_text;
-
 	char * entryy = strdup(entry_text);
 
 	char response[MAX_RESPONSE];
