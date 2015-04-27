@@ -36,7 +36,7 @@ GtkWidget *tree_view;
 GtkTreeSelection *selection;
 
 GtkWidget *messages;
-GtkTextView *view;
+GtkWidget *view;
 GtkTextBuffer *buffer;
 
 GtkListStore * list_rooms;
@@ -455,7 +455,7 @@ int main(int argc, char *argv[] )
 	messages = create_text("Select a room and Messages will be displayed here.\n");    
 	gtk_table_attach_defaults (GTK_TABLE (table), messages, 3, 7, 0, 7);
     gtk_widget_show (messages);
-	gtk_text_view_set_wrap_mode (view, GTK_WRAP_WORD);
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(view), GTK_WRAP_WORD);
 	
 
 	sendlabel = gtk_label_new("Type your message below: (Enter or SEND)");
