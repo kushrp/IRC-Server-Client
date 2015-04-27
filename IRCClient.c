@@ -25,6 +25,7 @@ char * sport;
 int port = 8888;
 
 GtkWidget *tree_view;
+GtkTreeSelection *selection;
 
 GtkListStore * list_rooms;
 GtkListStore * list_names;
@@ -240,27 +241,59 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 
 void update_list_rooms() {
     GtkTreeIter iter;
-    int i;
-    for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("Room %d", i);
+	gtk_list_store_clear(GTK_LIST_STORE (list_rooms));
+	char response[MAX_RESPONSE];
+	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
+	char * token = strtok(response,"\r\n");
+    while(token != NULL) {
+		gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
 		g_free (msg);
+		token = strtok(NULL, "\r\n");
     }
 }
 
-void update_list_names() {
-    GtkTreeIter iter;
-    int i;
-    for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("User %d", i);
-        gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
+void update_list_names(char * Rname) {
+	GtkTreeIter iter;
+	if(strcmp(Rname,"No room selected")) 
+	{
+		gtk_list_store_clear(GTK_LIST_STORE (list_names));
+		gchar *msg = g_strdup("No room selected");
+		gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
 		g_free (msg);
-    }
+	}
+    else {
+		//GtkTreeIter iter;
+		gtk_list_store_clear(GTK_LIST_STORE (list_names));
+		char response[MAX_RESPONSE];
+		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, Rname, response);
+		char * token = strtok(response,"\r\n");
+    	while(token != NULL) {
+			gchar *msg = g_strdup((gchar *)token);
+        	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
+        	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
+			g_free (msg);
+			token = strtok(NULL, "\r\n");
+    	}
+	}
 }
 
+void on_changed(GtkWidget *widget, gpointer label) 
+{
+  GtkTreeIter iter;
+  GtkTreeModel *model;
+  char *value;
 
+  if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
+    gtk_tree_model_get(model, &iter, 0, &value,  -1);
+    gtk_label_set_text(GTK_LABEL(label), value);
+    //g_free(value);
+  }
+	printf("%s\n",value);
+
+}
 	
 
 
@@ -276,6 +309,7 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	char response[MAX_RESPONSE];
 	sendCommand(host, port, "CREATE-ROOM", user, password, (char *)entry_text, response);
 	printf("%s\n",response);
+	update_list_rooms();
 }
 
 static void create_room1 (GtkWidget *widget, GtkWidget *entry ) {}
@@ -291,6 +325,7 @@ int main(int argc, char *argv[] )
 	GtkWidget *R_entry;
 	GtkWidget *croom;
 	GtkWidget *cacc;
+	GtkWidget *text;
 
     gtk_init (&argc, &argv);
    
@@ -314,20 +349,23 @@ int main(int argc, char *argv[] )
 
 
     // list_rooms LIST
+	text = gtk_label_new("hiiiiiiii");
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
     update_list_rooms();
     list = create_list ("Rooms", list_rooms);
     gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 3, 0, 4);
     gtk_widget_show (list);
-
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed), text);
 
 
 	//list_names LIST
 	list_names = gtk_list_store_new (1, G_TYPE_STRING);
-    update_list_names();
+    update_list_names("No room selected");
     list2 = create_list ("Users in Room", list_names);
     gtk_table_attach_defaults (GTK_TABLE (table), list2, 0, 3, 6, 10);
     gtk_widget_show (list2);
+	
 
 
    
