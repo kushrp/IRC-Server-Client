@@ -240,7 +240,7 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
         user1 = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
         password1 = (char *)gtk_entry_get_text (GTK_ENTRY (entryp));
         char response[ MAX_RESPONSE ];
-		sendCommand(host, port, "ADD-USER", strdup(user1), strdup(password1), "", response);
+		sendCommand(host, port, "ADD-USER", user1, password1, "", response);
 		printf("User in Account creation: %s \n",user);
 		if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
