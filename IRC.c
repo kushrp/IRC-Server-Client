@@ -291,6 +291,8 @@ void fncreate_room() {
 void getallusrs(char * val) {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
+	int g = 0;
+	printf("Hi %d",g++);
 	sendCommand(host, port, "GET-USERS-IN-ROOM", "superman", "clarkkent", val, response);
 	
 	printf("%s\n",response);
@@ -510,7 +512,7 @@ void  on_changed(GtkWidget *widget, gpointer label)
   GtkTreeModel *model;
   char *value;
 
-
+  printf("hiii\n");
   if (gtk_tree_selection_get_selected(
       GTK_TREE_SELECTION(widget), &model, &iter)) {
 
@@ -563,13 +565,13 @@ int main( int   argc,
 
     // Add list of rooms. Use columns 0 to 4 (exclusive) and rows 0 to 4 (exclusive)
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
-    //update_list_rooms();
+    update_list_rooms();
     list = create_list ("Rooms", list_rooms);
     gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 3, 0, 4);
     gtk_widget_show (list);
 
 	GtkTreeSelection *selection;
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list_rooms));
 	
 	g_signal_connect(selection, "changed", G_CALLBACK(on_changed), text);
 
