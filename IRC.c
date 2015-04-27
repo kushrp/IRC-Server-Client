@@ -24,7 +24,7 @@ GtkWidget *tree_view;
 GtkCellRenderer *cell;
 GtkTreeViewColumn *column; */
 
-GtkLabel * text;
+GtkWidget * text;
 GtkWidget *tree_view;
 
 char * host;
@@ -574,7 +574,7 @@ int main( int   argc,
 	GtkTreeSelection *selection;
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
-	g_signal_connect(selection, "changed", G_CALLBACK(on_changed), text);
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed), (gpointer) text);
 
 	
    
