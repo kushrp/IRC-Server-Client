@@ -334,7 +334,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	
 	printf("1\n");
 
-	char * firststring = strcat(space," ");
+/*	char * firststring = strcat(space," ");
 	char * secondstring = strcat(firststring,roomname);
 
 	printf("2\n");
@@ -342,7 +342,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
 
 	printf("3\n");
-	
+*/	
 	insert_text(buffer,"Hiiiiii\n");
 	prevname = strdup(roomname);
 }
