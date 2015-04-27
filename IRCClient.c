@@ -517,8 +517,6 @@ int main(int argc, char *argv[] )
     gtk_widget_show (table);
     gtk_widget_show (window);
 
-	g_timeout_add(5000, (GSourceFunc) time_handler, (gpointer) window);
-
     gtk_main ();
 
     return 0;
