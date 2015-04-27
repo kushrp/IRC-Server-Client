@@ -43,11 +43,11 @@ char * txt[100];
 
 void update_list_rooms() {
     GtkTreeIter iter;
-	char response[MAX_RESPONSE];
-	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
-	gtk_list_store_clear(GTK_LIST_STORE (list_rooms));
+	char response[MAX_RESPONSE] = "hi";
+	/*sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
+	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); */
 	printf("%s\n",response);
-	char * token = strtok(response,"\r\n");
+	/* char * token = strtok(response,"\r\n");
 	while(token != NULL) 
 	{
 		
@@ -59,15 +59,16 @@ void update_list_rooms() {
 	//}
     /* Add some messages to the window */
    // for (i = 0; i < 10; i++) {
-		printf("%s\n",token);
+	/*	printf("%s\n",token);
         gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
 		g_free (msg);
 		i++;
 	    token = strtok(NULL, "\r\n");
-	}
+	} */
     //}
+	
 }
 
 void update_room_user_names() {
@@ -501,7 +502,11 @@ int main( int   argc,
 
 	g_signal_connect (ca, "clicked", G_CALLBACK (hello), NULL);
 
+	
+
 	g_timeout_add(5000, (GSourceFunc) update_list_rooms, (gpointer) window);
+
+	//update_list_rooms();
     
     gtk_widget_show (table);
     gtk_widget_show (window);
