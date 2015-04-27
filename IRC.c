@@ -12,22 +12,21 @@
 #include <pthread.h>
 #include <gtk/gtk.h>
 
-
 #define MAX_MESSAGES 100
 #define MAX_MESSAGE_LEN 300
 #define MAX_RESPONSE (20 * 1024)
-
-/*GtkWidget *scrolled_window;
-GtkWidget *tree_view;
-//GtkListStore *model;
-GtkCellRenderer *cell;
-GtkTreeViewColumn *column; */
 
 GtkWidget * text;
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
 GtkWidget *messages;
 GtkWidget *list;
+
+GtkListStore * list_rooms;
+GtkListStore * room_user_names;
+GtkWidget * room_entry;
+GtkWidget * create_room;
+GtkWidget * namelist;
 
 char * host;
 char * user;
@@ -36,12 +35,6 @@ char * sport;
 int port = 8888;
 
 int lastMessage = 0;
-
-GtkListStore * list_rooms;
-GtkListStore * room_user_names;
-GtkWidget * room_entry;
-GtkWidget * create_room;
-GtkWidget * namelist;
 
 char * usern = "superman";
 char * passw = "clarkkent"; 
@@ -56,7 +49,8 @@ void update_list_rooms() {
 	char response[MAX_RESPONSE] = "hi";
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	printf("fff\n");
-	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
+	//gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
+	
 	
 	//printf("hi 1\n");
 	printf("1\n");
@@ -625,9 +619,9 @@ int main( int   argc,
     gtk_widget_show (list);
 
 	
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+	//selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	
-	g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
+	//g_signal_connect(selection, "changed", G_CALLBACK(on_changed),  text);
 
 	
    
