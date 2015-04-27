@@ -190,7 +190,7 @@ int sendCommand(char * host, int port, char * command, char * user,
 	while ((n=read(sock, response+len, MAX_RESPONSE - len))>0) {
 		len += n;
 	}
-
+	response[len] = '\0';
 	printf("response:%s\n", response);
 
 	close(sock);
