@@ -27,6 +27,7 @@ GtkTreeViewColumn *column; */
 GtkWidget * text;
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
+GtkWidget *messages;
 
 char * host;
 char * user;
@@ -262,6 +263,10 @@ int sendCommand(char * host, int port, char * command, char * user, char * passw
 	close(sock);
 }
 
+void displaymsg(char * r) {
+	messages = create_text(r);
+}
+
 void printUsage()
 {
 	printf("Usage: talk-client host port user password\n");
@@ -294,7 +299,7 @@ void getallusrs(char * val) {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
 	int g = 0;
-	printf("Hi %d",g++);
+	//printf("Hi %d",g++);
 	sendCommand(host, port, "GET-USERS-IN-ROOM", "superman", "clarkkent", val, response);
 	
 	printf("%s\n",response);
@@ -304,6 +309,21 @@ void getallusrs(char * val) {
 	//	printf("Room %s added\n", user);
 	//}
 
+}
+
+void refreshmsg(char * val) {
+	// Try first to add user in case it does not exist.
+	char response[MAX_RESPONSE];
+	int g = 0;
+	//printf("Hi %d",g++);
+	sendCommand(host, port, "GET-MESSAGES", "superman", "clarkkent", val, response);
+	
+	printf("%s\n",response);
+
+	displaymsg(response);
+	//if (!strcmp(response,"OK\r\n")) {
+	//	printf("Room %s added\n", user);
+	//}
 }
 
 void on_changed(GtkWidget *widget, gpointer label) 
@@ -322,6 +342,7 @@ void on_changed(GtkWidget *widget, gpointer label)
   }
 
 	getallusrs(value);
+	refreshmsg(value);
 	//char *entryText
 	//gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)); //Sets iter and model to the selected entry
 
@@ -544,7 +565,7 @@ int main( int   argc,
 {
     GtkWidget *window;
     GtkWidget *list;
-    GtkWidget *messages;
+    
     GtkWidget *myMessage;
 
 	host = "localhost";
@@ -612,7 +633,8 @@ int main( int   argc,
 	g_signal_connect (create_room, "clicked", G_CALLBACK (send_create_room), room_entry);
 	
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
+   // messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
+	messages = create_text("Please select room first\n");  
     gtk_table_attach_defaults (GTK_TABLE (table), messages, 3, 7, 0, 7);
     gtk_widget_show (messages);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
