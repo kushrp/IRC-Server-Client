@@ -278,15 +278,15 @@ void update_list_names() {
 		//GtkTreeIter iter;
 		gtk_list_store_clear(GTK_LIST_STORE (list_names));
 		char response[MAX_RESPONSE];
-		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, response);
-		printf("Response Get-users-in-room: %s\n",response);
+		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, strdup(roomname), response);
+		printf("Response Get-users-in-room: %s\n pls work",response);
 		char * token = strtok(response,"\r\n");
     	while(token != NULL) {
 			printf("Token: %s\n",token);
 			gchar *msg = g_strdup((gchar *)token);
         	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
         	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
-			g_free (msg);
+			//g_free (msg);
 			token = strtok(NULL, "\r\n");
     	}
 	//}
