@@ -16,6 +16,8 @@
 #define MAX_MESSAGE_LEN 300
 #define MAX_RESPONSE (20 * 1024)
 
+char responsepls[MAX_RESPONSE];
+
 int lastMessage = 0;
 
 char * host = "localhost";
@@ -324,8 +326,8 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
    // user = (char *)entry_text;
 
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "CREATE-ROOM", user, password, (char *)entry_text, response);
-	printf("Response Create Room: %s\n",response);
+	sendCommand(host, port, "CREATE-ROOM", user, password, (char *)entry_text, responsepls);
+	printf("Response Create Room: %s\n",responsepls);
 	update_list_rooms();
 }
 
