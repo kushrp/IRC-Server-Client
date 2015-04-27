@@ -293,6 +293,7 @@ void update_list_names() {
 		token = strtok(NULL, "\r\n");
    	}
 //}
+	printf("Leaving list names\n");
 }
 
 
@@ -300,6 +301,7 @@ void update_list_names() {
 
 void on_changed(GtkWidget *widget, gpointer label) 
 {
+	printf("11\n");
   GtkTreeIter iter;
   GtkTreeModel *model;
   //char *value;
@@ -310,6 +312,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 	// printf("User in Leave room: %s \n",user);
 	// printf("Response Leave room: %s\n",response);
   }
+	printf("22\n");
   if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
 	gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
     gtk_label_set_text(GTK_LABEL(label), roomname);
