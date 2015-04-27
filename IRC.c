@@ -24,7 +24,7 @@ GtkWidget *tree_view;
 GtkCellRenderer *cell;
 GtkTreeViewColumn *column; */
 
-char * text;
+GtkLabel * text;
 GtkWidget *tree_view;
 
 char * host;
