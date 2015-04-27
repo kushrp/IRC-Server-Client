@@ -29,15 +29,13 @@ GtkWidget * create_room;
 GtkWidget * namelist;
 
 char * host;
-char * user;
-char * password;
+char * user = "superman";
+char * password = "clarkkent";
 char * sport;
 int port = 8888;
 
 int lastMessage = 0;
 
-char * usern = "superman";
-char * passw = "clarkkent"; 
 char * sendrn;
 GtkWidget *pass;
 int i = 0;
@@ -47,7 +45,7 @@ void update_list_rooms() {
 	printf("inside update list rooms\n");
     GtkTreeIter iter;
 	char response[MAX_RESPONSE] = "hi";
-	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
+	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
 	printf("fff\n");
 
 	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
@@ -86,7 +84,7 @@ void update_list_rooms() {
 void update_room_user_names(char * val) {
     GtkTreeIter iter;
 	char response[MAX_RESPONSE] = "hi";
-	sendCommand(host, port, "GET-USERS-IN-ROOM", "superman", "clarkkent", val, response);
+	sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, val, response);
 	gtk_list_store_clear(GTK_LIST_STORE (room_user_names)); 
 	//printf("hi 1\n");
 	char * token = strtok(response,"\r\n");
@@ -276,7 +274,7 @@ void printUsage()
 void add_user() {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "ADD-USER", usern, passw, "", response);
+	sendCommand(host, port, "ADD-USER", user, password, "", response);
 	
 	printf("%s\n",response);
 	if (!strcmp(response,"OK\r\n")) {
@@ -287,7 +285,7 @@ void add_user() {
 void enter_user(char * val) {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "ENTER-ROOM", usern, passw, val, response);
+	sendCommand(host, port, "ENTER-ROOM", user, password, val, response);
 	
 	//printf("%s\n",response);
 	//if (!strcmp(response,"OK\r\n")) {
@@ -299,7 +297,7 @@ void enter_user(char * val) {
 void fncreate_room() {
 	// Try first to add user in case it does not exist.
 	char response[MAX_RESPONSE];
-	sendCommand(host, port, "CREATE-ROOM", "superman", "clarkkent", sendrn, response);
+	sendCommand(host, port, "CREATE-ROOM", user, password, sendrn, response);
 	
 	printf("%s\n",response);
 	//if (!strcmp(response,"OK\r\n")) {
@@ -312,7 +310,7 @@ void getallusrs(char * val) {
 	char response[MAX_RESPONSE];
 	int g = 0;
 	//printf("Hi %d",g++);
-	sendCommand(host, port, "GET-USERS-IN-ROOM", "superman", "clarkkent", val, response);
+	sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, val, response);
 	
 	printf("%s\n",response);
 	enter_user(val);
@@ -330,7 +328,7 @@ void refreshmsg(char * val) {
 	char response[MAX_RESPONSE];
 	int g = 0;
 	//printf("Hi %d",g++);
-	sendCommand(host, port, "GET-MESSAGES", "superman", "clarkkent", val, response);
+	sendCommand(host, port, "GET-MESSAGES", user, password, val, response);
 	
 	printf("%s\n",response);
 
@@ -443,7 +441,7 @@ static void enter_callback( GtkWidget *widget,
   const gchar *entry_text;
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
   printf ("Entry contents: %s\n", entry_text);
-  usern = (char *)entry_text;
+  user = (char *)entry_text;
 }
 
 static void room_enter_callback( GtkWidget *widget,
@@ -463,7 +461,7 @@ static void pass_callback( GtkWidget *widget,
   const gchar *entry_text;
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
   printf ("Entry contents: %s\n", entry_text);
-  passw = (char *)entry_text;
+  password = (char *)entry_text;
 }
 
 static void send_details( GtkWidget *widget, GtkWidget *w1)
@@ -471,11 +469,11 @@ static void send_details( GtkWidget *widget, GtkWidget *w1)
   const gchar *entry_text;
   entry_text = gtk_entry_get_text (GTK_ENTRY (w1));
   printf ("Entry contents: %s\n", entry_text);
-  usern = (char *)entry_text;
+  user = (char *)entry_text;
   const gchar *entry_text2;
   entry_text2 = gtk_entry_get_text (GTK_ENTRY (pass));
   printf ("Entry contents: %s\n", entry_text2);
-  passw = (char *)entry_text2;
+  password = (char *)entry_text2;
   add_user();
   
 }
@@ -582,16 +580,13 @@ int main( int   argc,
           char *argv[] )
 {
     GtkWidget *window;
-
-    
     GtkWidget *myMessage;
-
 	host = "localhost";
+	if(argc >= 3) {
+		host = argv[1];
+		port = atoi(argv[2]);
+	}
 
-	//up = (userpass *)malloc(100*sizeof(userpass));
-
-	usern = (char *)g_malloc(100);
-	passw = (char *)g_malloc(100);
 	sendrn = (char *)g_malloc(100);
 
     gtk_init (&argc, &argv);
