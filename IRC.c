@@ -18,6 +18,13 @@
 #define MAX_MESSAGE_LEN 300
 #define MAX_RESPONSE (20 * 1024)
 
+/*GtkWidget *scrolled_window;
+GtkWidget *tree_view;
+//GtkListStore *model;
+GtkCellRenderer *cell;
+GtkTreeViewColumn *column; */
+
+char * text;
 
 char * host;
 char * user;
@@ -46,7 +53,7 @@ void update_list_rooms() {
 	char response[MAX_RESPONSE] = "hi";
 	sendCommand(host, port, "LIST-ROOMS", "superman", "clarkkent", "", response);
 	gtk_list_store_clear(GTK_LIST_STORE (list_rooms)); 
-	printf("hi 1\n");
+	//printf("hi 1\n");
 	char * token = strtok(response,"\r\n");
 	while(token != NULL) 
 	{
@@ -59,31 +66,50 @@ void update_list_rooms() {
 	//}
     /* Add some messages to the window */
    // for (i = 0; i < 10; i++) {
-		printf("hi 2\n");
+		//printf("hi 2\n");
         gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-		printf("hi 3\n");
+		//printf("hi 3\n");
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
 		//g_free (msg);
 		i++;
 	    token = strtok(NULL, "\r\n");
 	} 
     //}
-	printf("hi4\n");
+	//printf("hi4\n");
 	
 }
 
-void update_room_user_names() {
+void update_room_user_names(char * val) {
     GtkTreeIter iter;
-    int i;
-
+	char response[MAX_RESPONSE] = "hi";
+	sendCommand(host, port, "GET-USERS-IN-ROOM", "superman", "clarkkent", val, response);
+	gtk_list_store_clear(GTK_LIST_STORE (room_user_names)); 
+	//printf("hi 1\n");
+	char * token = strtok(response,"\r\n");
+	while(token != NULL) 
+	{
+		
+	 // if(i==3) args = token;
+		
+	 // if(i==4) args2 = token;
+	//if (!strcmp(response,"OK\r\n")) {
+	//	printf("User %s added\n", user);
+	//}
     /* Add some messages to the window */
-    for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("User %d", i);
+   // for (i = 0; i < 10; i++) {
+		//printf("hi 2\n");
+        gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (room_user_names), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (room_user_names), &iter, 0, msg,-1);
-		g_free (msg);
-    }
+		//printf("hi 3\n");
+        gtk_list_store_set (GTK_LIST_STORE (room_user_names), &iter, 0, msg, -1);
+		//g_free (msg);
+		i++;
+	    token = strtok(NULL, "\r\n");
+	} 
+    //}
+	//printf("hi4\n");
+	
 }
 
 
@@ -94,7 +120,7 @@ static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
     GtkWidget *tree_view;
     //GtkListStore *model;
     GtkCellRenderer *cell;
-    GtkTreeViewColumn *column;
+    GtkTreeViewColumn *column; 
 
     int i;
    
@@ -119,6 +145,9 @@ static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
   
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
 	  		         GTK_TREE_VIEW_COLUMN (column));
+	//gtk_tree_view_set_activate_on_single_click (GTK_TREE_VIEW(tree_view),TRUE);
+	
+	//gtk_tree_view_row_activated (GTK_TREE_VIEW(tree_view),column)
 
     return scrolled_window;
 }
@@ -259,6 +288,20 @@ void fncreate_room() {
 	}
 }
 
+void getallusrs(char * val) {
+	// Try first to add user in case it does not exist.
+	char response[MAX_RESPONSE];
+	sendCommand(host, port, "GET-USERS-IN-ROOM", "superman", "clarkkent", val, response);
+	
+	printf("%s\n",response);
+
+	update_room_user_names(val);
+	//if (!strcmp(response,"OK\r\n")) {
+	//	printf("Room %s added\n", user);
+	//}
+
+}
+
 static gboolean
 time_handler(GtkWidget *widget)
 {
@@ -375,7 +418,7 @@ static void send_create_room(GtkWidget *widget, GtkWidget *w1)
   printf ("Entry contents: %s\n", entry_text);
   sendrn = (char *)entry_text;
   fncreate_room();
-  //update_list_rooms();
+  update_list_rooms();
   
 }
 
@@ -461,6 +504,30 @@ static void hello( GtkWidget *widget,
    // return 0;
 }
 
+void  on_changed(GtkWidget *widget, gpointer label) 
+{
+  GtkTreeIter iter;
+  GtkTreeModel *model;
+  char *value;
+
+
+  if (gtk_tree_selection_get_selected(
+      GTK_TREE_SELECTION(widget), &model, &iter)) {
+
+    gtk_tree_model_get(model, &iter, 0, &value,  -1);
+    gtk_label_set_text(GTK_LABEL(label), value);
+    //g_free(value);
+  }
+
+	getallusrs(value);
+	//char *entryText
+	//gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)); //Sets iter and model to the selected entry
+
+	//gtk_tree_model_get(model, &iter, 0, &entryText, -1);
+	//g_free(entryText) //Once you're done with it.
+
+}
+
 
 int main( int   argc,
           char *argv[] )
@@ -500,9 +567,16 @@ int main( int   argc,
     list = create_list ("Rooms", list_rooms);
     gtk_table_attach_defaults (GTK_TABLE (table), list, 0, 3, 0, 4);
     gtk_widget_show (list);
+
+	GtkTreeSelection *selection;
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
+	
+	g_signal_connect(selection, "changed", G_CALLBACK(on_changed), text);
+
+	
    
 	room_user_names = gtk_list_store_new (1, G_TYPE_STRING);
-    update_room_user_names();
+    update_room_user_names("No room selected\r\n");
     namelist = create_list ("Users", room_user_names);
     gtk_table_attach_defaults (GTK_TABLE (table), namelist, 0, 3, 6, 10);
     gtk_widget_show (namelist);
@@ -549,8 +623,8 @@ int main( int   argc,
 
 	
 
-	g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) window);
-	time_handler(window);
+//	g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) window);
+//	time_handler(window);
 
 	//update_list_rooms();
     
