@@ -413,7 +413,8 @@ if(genius == 1) {
 	//}
   return TRUE;
 }
-//return TRUE;
+
+return TRUE;
 }
 
 static void create_room1 (GtkWidget *widget, GtkWidget *entry ) {}
