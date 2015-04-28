@@ -219,10 +219,7 @@ void printUsage()
 
 void update_list_rooms() {
     GtkTreeIter iter;
-	//printf("1\n");
 	gtk_list_store_clear(GTK_LIST_STORE (list_rooms));
-	//printf("2\n");
-	//char response[MAX_RESPONSE];
 	sendCommand(host, port, "LIST-ROOMS", user, password, "", rnames);
 	char * token = strtok(rnames,"\r\n");
     while(token != NULL) {
@@ -233,9 +230,6 @@ void update_list_rooms() {
 		token = strtok(NULL, "\r\n");
     }
 }
-
-
-
 
 static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 	GtkWidget *window, *table;
@@ -276,21 +270,14 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 		//if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
 	update_list_rooms();
-	
 	gtk_widget_destroy(window);
 }
-
-
-
-
 
 void update_list_names() {
 	GtkTreeIter iter;
 	gtk_list_store_clear(GTK_LIST_STORE (list_names));
-	//char response[MAX_RESPONSE];
 	sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, names);
 	char * hi = strdup(names);
-	//printf("Response Get-users-in-room: %s\n pls work",hi);
 	char * token = strtok(hi,"\r\n");
    	while(token != NULL) {
 		printf("Token: %s\n",token);
@@ -300,33 +287,21 @@ void update_list_names() {
 		g_free (msg);
 		token = strtok(NULL, "\r\n");
    	}
-//}
-	//printf("Leaving list names\n");
 }
 
 void getmsgs() {
 	if(genius == 1) {
-	char blah[20];
-	
+		char blah[20];
+		sprintf(blah,"%d",lastMessage);
 
-	sprintf(blah,"%d",lastMessage);
-	
-	printf("1\n");
-
-	char * firststring = strcat(blah," ");
-	if(roomname != NULL && user != NULL && password != NULL && buffer != NULL) {
-		char * secondstring = strcat(firststring,strdup(roomname));
-
-		//printf("2\n");
-
-		sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
-
-		//printf("3\n");
-	
-		insert_text(buffer,msgz);
-		//lastMessage++;
-	}
-}
+		char * firststring = strcat(blah," ");
+		if(roomname != NULL && user != NULL && password != NULL && buffer != NULL) {
+			char * secondstring = strcat(firststring,strdup(roomname));
+			sendCommand(host, port, "GET-MESSAGES", user, password, secondstring, msgz);
+			insert_text(buffer,msgz);
+			//lastMessage++;
+		}
+	}	
 }
 
 
@@ -348,6 +323,8 @@ void on_changed(GtkWidget *widget, gpointer label)
 		printf("Hi pls\n");
 		sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
 		sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
+		printf("Leave room: %s\n",response);
+		printf("User: %s Room: %s\n",user,prevname);
   }
   globalcopy = strdup(roomname);
   char response[MAX_RESPONSE];
@@ -362,7 +339,6 @@ void on_changed(GtkWidget *widget, gpointer label)
 }
 
 static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
-	printf("Hiii\n");
 	const char *entry_text;
     entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
     printf ("Entry contents: %s\n", entry_text);
