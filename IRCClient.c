@@ -350,7 +350,8 @@ void on_changed(GtkWidget *widget, gpointer label)
 		char er[20];
 	sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
-	sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
+	sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);	
+	getmsgs();
 	//printf("User in enter room: %s \n",user);
 	//printf("Response Enter Room: %s\n",response);
 	update_list_names();
@@ -372,6 +373,7 @@ static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
 	//printf("u3: %s\n",u3);
 	getmsgs();
 	sendCommand(host, port, "SEND-MESSAGE", user, password, strdup(u4), response);
+	getmsgs();
 	//printf("User in sendmsg: %s \n",user);
 	//printf("Response sendmsg: %s\n",response);
 }
