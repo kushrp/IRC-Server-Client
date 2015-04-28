@@ -516,6 +516,7 @@ int main(int argc, char *argv[] )
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
     gtk_table_attach_defaults(GTK_TABLE (table), send_button, 3, 7, 9, 10); 
 	g_signal_connect (send_button, "clicked", G_CALLBACK (sendMessg), myMessage);
+	g_signal_connect (send_button, "clicked", G_CALLBACK (clearing), myMessage);
 	gtk_widget_show (send_button);    
 	
     gtk_widget_show (table);
