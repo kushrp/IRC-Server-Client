@@ -29,7 +29,7 @@ char * host = "localhost";
 char * user = "superman";
 char * password = "clarkkent";
 char * sport;
-int port = 2500;
+int port = 2400;
 
 char * roomname;
 char * prevname;
