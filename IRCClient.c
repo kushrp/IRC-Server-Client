@@ -18,7 +18,7 @@
 
 char names[1024] = "";
 char rnames[1024] = "";
-char msgz[10240] = "";
+char msgz[MAX_RESPONSE ] = "";
 
 int lastMessage = 0;
 
@@ -225,7 +225,7 @@ void update_list_rooms() {
 		gchar *msg = g_strdup((gchar *)token);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, msg, -1);
-		//g_free (msg);
+		g_free (msg);
 		token = strtok(NULL, "\r\n");
     }
 }
@@ -291,7 +291,7 @@ void update_list_names() {
 		gchar *msg = g_strdup((gchar *)token);
        	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
        	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
-		//g_free (msg);
+		g_free (msg);
 		token = strtok(NULL, "\r\n");
    	}
 //}
@@ -387,6 +387,10 @@ static void create_room (GtkWidget *widget, GtkWidget *entry ) {
 	//printf("User in Create room: %s ",user);
 	//printf("Response Create Room: %s",response);
 	update_list_rooms();
+}
+
+static void clearing (GtkWidget *widget, GtkWidget *entry) {
+	 gtk_entry_set_text (GTK_ENTRY (entry), "");	
 }
 
 static gboolean
@@ -512,6 +516,7 @@ int main(int argc, char *argv[] )
     myMessage = gtk_entry_new ();
     gtk_entry_set_max_length (GTK_ENTRY (myMessage), MAX_MESSAGE_LEN);
     g_signal_connect (myMessage, "activate", G_CALLBACK (sendMessg), myMessage);
+	g_signal_connect (myMessage, "activate", G_CALLBACK (clearing), myMessage);
     gtk_entry_set_text (GTK_ENTRY (myMessage), "");	
 	gtk_table_attach_defaults(GTK_TABLE (table), myMessage, 3, 7, 8, 9); 
     gtk_widget_show (myMessage);
