@@ -18,7 +18,7 @@
 
 char * globalcopy = (char *)g_malloc(sizeof(char)*1000);
 
-int genius = 1;
+int genius = 0;
 
 char names[1024] = "";
 char rnames[1024] = "";
@@ -30,8 +30,8 @@ char * user1;
 char * pass1;
 
 char * host = strdup("localhost");
-char * user = strdup("superman");
-char * password = strdup("clarkkent");
+char * user = strdup("super");
+char * password = strdup("clarkk");
 char * sport;
 int port = 2400;
 
@@ -263,6 +263,7 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
     gtk_widget_show_all(window);
     response = gtk_dialog_run (GTK_DIALOG(window));
     if(response == GTK_RESPONSE_OK) {
+		genius = 1;
         //g_print("The username is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryu)));
         //g_print("The password is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryp)));
         user1 = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
@@ -275,6 +276,7 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 		//if (!strcmp(response,"OK\r\n")) printf("User %s added\n", user);
     }
 	update_list_rooms();
+	
 	gtk_widget_destroy(window);
 }
 
@@ -303,11 +305,13 @@ void update_list_names() {
 }
 
 void getmsgs() {
+	if(genius == 1) {
 	char blah[20];
+	
 
 	sprintf(blah,"%d",lastMessage);
 	
-	//printf("1\n");
+	printf("1\n");
 
 	char * firststring = strcat(blah," ");
 	if(roomname != NULL && user != NULL && password != NULL && buffer != NULL) {
@@ -322,6 +326,7 @@ void getmsgs() {
 		insert_text(buffer,msgz);
 		//lastMessage++;
 	}
+}
 }
 
 
@@ -357,6 +362,7 @@ void on_changed(GtkWidget *widget, gpointer label)
 }
 
 static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
+	printf("Hiii\n");
 	const char *entry_text;
     entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
     printf ("Entry contents: %s\n", entry_text);
@@ -394,8 +400,9 @@ static void clearing (GtkWidget *widget, GtkWidget *entry) {
 static gboolean
 time_handler(GtkWidget *widget)
 {
-	if(genius == 1) {
-  if (widget->window == NULL) return FALSE;
+ if (widget->window == NULL) return FALSE;
+if(genius == 1) {
+ 
 
   //gtk_widget_queue_draw(widget);
 
@@ -403,8 +410,10 @@ time_handler(GtkWidget *widget)
   update_list_rooms();
   getmsgs();
   //update_list_names();
-	}
+	//}
   return TRUE;
+}
+//return TRUE;
 }
 
 static void create_room1 (GtkWidget *widget, GtkWidget *entry ) {}
