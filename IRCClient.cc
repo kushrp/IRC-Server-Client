@@ -411,6 +411,7 @@ int main(int argc, char *argv[] )
 	GtkWidget *list2;
     GtkWidget *myMessage;
 	GtkWidget *sendlabel;
+	GtkWidget *random;
 
 	GtkWidget *R_entry;
 	GtkWidget *croom;
@@ -499,6 +500,17 @@ int main(int argc, char *argv[] )
 	sendlabel = gtk_label_new("Type your message below: (Enter or SEND)");
 	gtk_table_attach_defaults(GTK_TABLE (table), sendlabel, 3, 7, 7, 8);
 	gtk_widget_show(sendlabel);
+
+	//Label for Right most corner:
+	random = gtk_label_new("Type Username and Passoword Properly");
+	gtk_table_attach_defaults(GTK_TABLE (table), random, 7, 10, 2, 3);
+	gtk_widget_show(random);
+
+	GtkWidget *random2 = gtk_label_new("Access restricted to members only.");
+	gtk_table_attach_defaults(GTK_TABLE (table), random2, 7, 10, 3, 4);
+	gtk_widget_show(random2);
+
+	
 
 
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
