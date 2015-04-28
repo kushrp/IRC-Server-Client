@@ -20,8 +20,8 @@ timer: timer.c
 TestIRCServer: TestIRCServer.c
 	g++ -g -o TestIRCServer TestIRCServer.c
 
-IRCClient: IRCClient.c
-	gcc IRCClient.c -o IRCClient `pkg-config --cflags --libs gtk+-2.0`
+IRCClient: IRCClient.cc
+	gcc IRCClient.cc -o IRCClient `pkg-config --cflags --libs gtk+-2.0`
 
 git:
 	git add -A  >> .local.git.out

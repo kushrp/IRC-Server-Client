@@ -25,14 +25,14 @@ int lastMessage = 0;
 char * user1;
 char * pass1;
 
-char * host = "localhost";
-char * user = "superman";
-char * password = "clarkkent";
+char * host = strdup("localhost");
+char * user = strdup("superman");
+char * password = strdup("clarkkent");
 char * sport;
 int port = 2400;
 
-char * roomname ;
-char * prevname = "q";
+char * roomname = (char *)g_malloc(sizeof(char)*1000);
+char * prevname = strdup("q");
 
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
@@ -333,7 +333,6 @@ void on_changed(GtkWidget *widget, gpointer label)
 		printf("Hi pls\n");
 		sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
 		sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
-	 }
   }
 
   if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
@@ -349,7 +348,6 @@ void on_changed(GtkWidget *widget, gpointer label)
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
 		getmsgs();
 		prevname = strdup(roomname);
-	}
 }
 
 static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
