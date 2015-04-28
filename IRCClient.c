@@ -329,7 +329,7 @@ void on_changed(GtkWidget *widget, gpointer label)
   GtkTreeModel *model;
   //char *value;
   if(prevname !=NULL){
-	char * er;
+	char er[20];
 	 prevname = roomname;
 	 char response[MAX_RESPONSE];
 	 sprintf(er,"Hey! %s is leaving the room. GoodBye!",user);
@@ -347,7 +347,7 @@ void on_changed(GtkWidget *widget, gpointer label)
   }
 	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
-		char * er;
+		char er[20];
 	sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
 	sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
