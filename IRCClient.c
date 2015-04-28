@@ -348,9 +348,12 @@ void on_changed(GtkWidget *widget, gpointer label)
 	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
 		char er[20];
+		char *er1;
 	sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
+	er1 = strdup(strcat(roomname," "));
+	er1 = strdup(strcat(er1,er));
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
-	sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);	
+	sendCommand(host, port, "SEND-MESSAGE", user, password, er1, response);	
 	getmsgs();
 	//printf("User in enter room: %s \n",user);
 	//printf("Response Enter Room: %s\n",response);
