@@ -329,11 +329,11 @@ void on_changed(GtkWidget *widget, gpointer label)
   GtkTreeModel *model;
   //char *value;
   if(prevname !=NULL){
-	char er[20];
+	//char er[20];
 	 prevname = roomname;
 	 char response[MAX_RESPONSE];
-	 sprintf(er,"Hey! %s is leaving the room. GoodBye!",user);
-	 sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
+	 //sprintf(er,"Hey! %s is leaving the room. GoodBye!",user);
+	 //sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
 	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
 	// printf("User in Leave room: %s \n",user);
 	// printf("Response Leave room: %s\n",response);
@@ -347,13 +347,13 @@ void on_changed(GtkWidget *widget, gpointer label)
   }
 	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
-		char er[20];
-		char *er1;
-	sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
-	er1 = strdup(strcat(roomname," "));
-	er1 = strdup(strcat(er1,er));
+		//char er[20];
+	//	char *er1;
+	//sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
+	//er1 = strdup(strcat(roomname," "));
+//	er1 = strdup(strcat(er1,er));
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
-	sendCommand(host, port, "SEND-MESSAGE", user, password, er1, response);	
+//	sendCommand(host, port, "SEND-MESSAGE", user, password, er1, response);	
 	getmsgs();
 	//printf("User in enter room: %s \n",user);
 	//printf("Response Enter Room: %s\n",response);
