@@ -430,7 +430,7 @@ int main(int argc, char *argv[] )
     gtk_container_set_border_width (GTK_CONTAINER (window), 10);
     gtk_widget_set_size_request (GTK_WIDGET (window), 800, 650);
 
-
+	
 
     // Table 10x10
     GtkWidget *table = gtk_table_new (10, 10, TRUE);
@@ -502,9 +502,9 @@ int main(int argc, char *argv[] )
 	gtk_widget_show(sendlabel);
 
 	//Label for Right most corner:
-	random = gtk_label_new("Type Username and Passoword Properly");
-	gtk_table_attach_defaults(GTK_TABLE (table), random, 7, 10, 2, 3);
-	gtk_widget_show(random);
+	//random = gtk_label_new("");
+	//gtk_table_attach_defaults(GTK_TABLE (table), random, 7, 10, 2, 3);
+	//gtk_widget_show(random);
 
 	GtkWidget *random2 = gtk_label_new("Access restricted to members only.");
 	gtk_table_attach_defaults(GTK_TABLE (table), random2, 7, 10, 3, 4);
