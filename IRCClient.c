@@ -295,7 +295,7 @@ void update_list_names() {
 		token = strtok(NULL, "\r\n");
    	}
 //}
-	printf("Leaving list names\n");
+	//printf("Leaving list names\n");
 }
 
 void getmsgs() {
@@ -324,43 +324,39 @@ void getmsgs() {
 
 void on_changed(GtkWidget *widget, gpointer label) 
 {
-	//printf("11\n");
   GtkTreeIter iter;
   GtkTreeModel *model;
-  //char *value;
+  char er[20];
+  char *er1;
+  char *er2;
   if(prevname !=NULL){
-	//char er[20];
-	 prevname = roomname;
 	 char response[MAX_RESPONSE];
-	 //sprintf(er,"Hey! %s is leaving the room. GoodBye!",user);
-	 //sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
-	 sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
-	// printf("User in Leave room: %s \n",user);
-	// printf("Response Leave room: %s\n",response);
+	 if(user != NULL) sprintf(er,"Hey! %s is leaving the room. GoodBye!",user);
+	 if(roomname != NULL) {	
+		er1 = strcat(roomname," ");
+		er2 = strdup(strcat(er1,er));
+		sendCommand(host, port, "SEND-MESSAGE", user, password, er2, response);
+		sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
+	 }
   }
 
-	//printf("22\n");
   if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
 	gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
     gtk_label_set_text(GTK_LABEL(label), roomname);
-    //g_free(value);
   }
-	//printf("%s\n",value);
 	char response[MAX_RESPONSE];
-		//char er[20];
-	//	char *er1;
-	//sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
-	//er1 = strdup(strcat(roomname," "));
-//	er1 = strdup(strcat(er1,er));
-	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
-//	sendCommand(host, port, "SEND-MESSAGE", user, password, er1, response);	
-	getmsgs();
-	//printf("User in enter room: %s \n",user);
-	//printf("Response Enter Room: %s\n",response);
-	update_list_names();
-	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-	getmsgs();
-	prevname = strdup(roomname);
+	if(user != NULL) sprintf(er,"Hey! %s has joined the room. Go ahead and chat!",user);
+	if(roomname != NULL){
+		er1 = strcat(roomname," ");
+		er2 = strdup(strcat(er1,er));
+		sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
+		sendCommand(host, port, "SEND-MESSAGE", user, password, er1, response);	
+		getmsgs();
+		update_list_names();
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+		getmsgs();
+		prevname = strdup(roomname);
+	}
 }
 
 static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
