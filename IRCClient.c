@@ -31,8 +31,8 @@ char * password = "clarkkent";
 char * sport;
 int port = 2400;
 
-char * roomname;
-char * prevname;
+char * roomname = "q";
+char * prevname = "q";
 
 GtkWidget *tree_view;
 GtkTreeSelection *selection;
