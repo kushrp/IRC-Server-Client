@@ -16,6 +16,10 @@
 #define MAX_MESSAGE_LEN 300
 #define MAX_RESPONSE (20 * 1024)
 
+char * globalcopy = (char *)g_malloc(sizeof(char)*1000);
+
+int genius = 1;
+
 char names[1024] = "";
 char rnames[1024] = "";
 char msgz[MAX_RESPONSE ] = "";
@@ -327,6 +331,12 @@ void on_changed(GtkWidget *widget, gpointer label)
   GtkTreeIter iter;
   GtkTreeModel *model;
   char er[200];
+  if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
+	gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
+    gtk_label_set_text(GTK_LABEL(label), roomname);
+  }
+  if(roomname == NULL) return;
+  if(!strcmp(roomname,globalcopy))return;	
   if(prevname !=NULL){
 	 char response[MAX_RESPONSE];
 	 if(user != NULL && roomname != NULL) sprintf(er,"%s Hey! %s is leaving the room. GoodBye!",roomname,user);
@@ -334,20 +344,16 @@ void on_changed(GtkWidget *widget, gpointer label)
 		sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
 		sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
   }
-
-  if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) {
-	gtk_tree_model_get(model, &iter, 0, &roomname,  -1);
-    gtk_label_set_text(GTK_LABEL(label), roomname);
-  }
-	char response[MAX_RESPONSE];
-	if(user != NULL && roomname != NULL) sprintf(er," %s Hey! %s has joined the room. Go ahead and chat!",roomname,user);
-		sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
-		sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);	
-		getmsgs();
-		update_list_names();
-		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-		getmsgs();
-		prevname = strdup(roomname);
+  globalcopy = strdup(roomname);
+  char response[MAX_RESPONSE];
+  if(user != NULL && roomname != NULL) sprintf(er," %s Hey! %s has joined the room. Go ahead and chat!",roomname,user);
+	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
+	sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);	
+	getmsgs();
+	update_list_names();
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+	getmsgs();
+	prevname = strdup(roomname);
 }
 
 static void sendMessg (GtkWidget *widget, GtkWidget *entry) {
@@ -388,6 +394,7 @@ static void clearing (GtkWidget *widget, GtkWidget *entry) {
 static gboolean
 time_handler(GtkWidget *widget)
 {
+	if(genius == 1) {
   if (widget->window == NULL) return FALSE;
 
   //gtk_widget_queue_draw(widget);
@@ -396,7 +403,7 @@ time_handler(GtkWidget *widget)
   update_list_rooms();
   getmsgs();
   //update_list_names();
-
+	}
   return TRUE;
 }
 
