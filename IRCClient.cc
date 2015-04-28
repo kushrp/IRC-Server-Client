@@ -319,16 +319,18 @@ void on_changed(GtkWidget *widget, gpointer label)
   if(!strcmp(roomname,globalcopy))return;	
   if(prevname !=NULL){
 	 char response[MAX_RESPONSE];
-	 if(user != NULL && roomname != NULL) sprintf(er,"%s Hey! %s is leaving the room. GoodBye!",roomname,user);
+	 if(user != NULL && roomname != NULL) sprintf(er,"%s is leaving the room. GoodBye!",prevname);
 		printf("Hi pls\n");
 		sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);
+				printf("Send message: %s\n",response);
+			printf("User: %s Room: %s\n",user,prevname);
 		sendCommand(host, port, "LEAVE-ROOM", user, password, prevname, response);
 		printf("Leave room: %s\n",response);
 		printf("User: %s Room: %s\n",user,prevname);
   }
   globalcopy = strdup(roomname);
   char response[MAX_RESPONSE];
-  if(user != NULL && roomname != NULL) sprintf(er," %s Hey! %s has joined the room. Go ahead and chat!",roomname,user);
+  if(user != NULL && roomname != NULL) sprintf(er,"%s has joined the room. Go ahead and chat!",roomname);
 	sendCommand(host, port, "ENTER-ROOM", user, password, roomname, response);
 	sendCommand(host, port, "SEND-MESSAGE", user, password, er, response);	
 	getmsgs();
