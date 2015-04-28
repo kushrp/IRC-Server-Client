@@ -276,17 +276,19 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
 void update_list_names() {
 	GtkTreeIter iter;
 	gtk_list_store_clear(GTK_LIST_STORE (list_names));
-	sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, names);
-	char * hi = strdup(names);
-	char * token = strtok(hi,"\r\n");
-   	while(token != NULL) {
-		printf("Token: %s\n",token);
-		gchar *msg = g_strdup((gchar *)token);
-       	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
-       	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
-		g_free (msg);
-		token = strtok(NULL, "\r\n");
-   	}
+	if(roomname != NULL && user != NULL && password != NULL) {
+		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, roomname, names);
+		char * hi = strdup(names);
+		char * token = strtok(hi,"\r\n");
+   		while(token != NULL) {
+			printf("Token: %s\n",token);
+			gchar *msg = g_strdup((gchar *)token);
+      	 	gtk_list_store_append (GTK_LIST_STORE (list_names), &iter);
+      	 	gtk_list_store_set (GTK_LIST_STORE (list_names), &iter, 0, msg, -1);
+			g_free (msg);
+			token = strtok(NULL, "\r\n");
+  	 	}
+	}
 }
 
 void getmsgs() {
@@ -387,7 +389,7 @@ if(genius == 1) {
  // fprintf(stderr, "Hi\n");
   update_list_rooms();
   getmsgs();
-  //update_list_names();
+  update_list_names();
 	//}
   return TRUE;
 }
