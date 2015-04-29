@@ -257,7 +257,6 @@ static void loginwindow(GtkWidget *widget, GtkWindow *data) {
     gtk_widget_show_all(window);
     response = gtk_dialog_run (GTK_DIALOG(window));
     if(response == GTK_RESPONSE_OK) {
-		genius = 1;
         //g_print("The username is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryu)));
         //g_print("The password is: %s\n", gtk_entry_get_text (GTK_ENTRY (entryp)));
         user1 = (char *)gtk_entry_get_text (GTK_ENTRY (entryu));
@@ -310,6 +309,7 @@ void getmsgs() {
 
 void on_changed(GtkWidget *widget, gpointer label) 
 {
+	genius = 1;
   GtkTreeIter iter;
   GtkTreeModel *model;
   char er[200];
@@ -405,7 +405,7 @@ int main(int argc, char *argv[] )
 		host = argv[1];
 		port = atoi(argv[2]);
 	}	
-	
+
     GtkWidget *window;
     GtkWidget *list;
 	GtkWidget *list2;
